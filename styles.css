@@ -1173,6 +1173,195 @@ body {
   min-width: 70px;
 }
 
+.sim-na {
+  color: var(--text-muted);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.sim-gain-negative {
+  color: #b91c1c;
+}
+
+.sim-esg-cell {
+  text-align: center !important;
+}
+
+.sim-esg-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--esg-color, var(--green));
+  background: rgba(11, 61, 44, 0.08);
+}
+
+.sim-bar-gain--negative {
+  color: #b91c1c;
+}
+
+.sim-bar-gain--na {
+  color: var(--text-muted);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 11px;
+}
+
+.sim-bar-fill--na {
+  background: var(--border);
+}
+
+/* ===== ESG PANEL ===== */
+.esg-panel {
+  margin: 28px 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+.esg-panel:empty {
+  display: none;
+}
+
+.esg-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.esg-panel-score-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: conic-gradient(var(--esg-color, var(--green)) var(--esg-pct, 0%), var(--border) var(--esg-pct, 0%));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.esg-panel-score-ring::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: var(--surface);
+}
+
+.esg-panel-score-value {
+  position: relative;
+  z-index: 1;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1;
+}
+
+.esg-panel-score-max {
+  position: relative;
+  z-index: 1;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.esg-panel-score-info {
+  flex: 1;
+}
+
+.esg-panel-score-label {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 2px;
+}
+
+.esg-panel-score-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.esg-panel-funds {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.esg-fund-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--green-muted);
+  border-radius: var(--radius-sm);
+}
+
+.esg-fund-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.esg-fund-details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.esg-tag {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.esg-tag--sfdr {
+  background: rgba(59, 130, 246, 0.1);
+  color: #2563eb;
+}
+
+.esg-tag--msci {
+  background: rgba(11, 61, 44, 0.1);
+  color: var(--green);
+}
+
+.esg-globes {
+  display: inline-flex;
+  gap: 2px;
+  font-size: 10px;
+}
+
+.esg-globe {
+  color: var(--border);
+}
+
+.esg-globe--filled {
+  color: var(--gold);
+}
+
+.esg-fund-score {
+  font-size: 13px;
+  font-weight: 800;
+  min-width: 50px;
+  text-align: right;
+}
+
 .sim-disclaimer {
   font-size: 11px;
   color: var(--text-muted);
@@ -1372,5 +1561,26 @@ body {
   .sim-table th,
   .sim-table td {
     padding: 10px 10px;
+  }
+
+  .esg-panel {
+    padding: 20px 16px;
+  }
+
+  .esg-panel-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .esg-fund-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .esg-fund-details {
+    flex-wrap: wrap;
+    gap: 6px;
   }
 }

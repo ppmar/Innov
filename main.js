@@ -169,28 +169,38 @@ document.addEventListener('DOMContentLoaded', () => {
   const FUND_DATA = {
     amundi: {
       name: 'Amundi ISR Actions Europe',
-      fees: 0.0035,
-      returns: { 1: 0.072, 3: 0.058, 5: 0.064, 10: 0.051 }
+      isin: 'FR0011020943',
+      fees: 0.0149,
+      returns: { 1: 0.1264, 3: 0.1159, 5: 0.1106, 10: 0.0828 },
+      esg: { msci: 'AA', morningstar: 4, sfdr: 8, score: 83 }
     },
     bnp: {
       name: 'BNP Paribas Green Bond',
-      fees: 0.0020,
-      returns: { 1: 0.038, 3: 0.019, 5: 0.021, 10: 0.028 }
+      isin: 'FR0013233387',
+      fees: 0.0121,
+      returns: { 1: 0.0283, 3: 0.0386, 5: -0.0157, 10: null },
+      esg: { msci: 'A', morningstar: 5, sfdr: 9, score: 86 }
     },
     lyxor: {
       name: 'Lyxor MSCI World ESG Leaders',
+      isin: 'LU1792117779',
       fees: 0.0018,
-      returns: { 1: 0.094, 3: 0.082, 5: 0.091, 10: 0.085 }
+      returns: { 1: 0.2250, 3: 0.1425, 5: 0.1280, 10: null },
+      esg: { msci: 'AAA', morningstar: 4, sfdr: 8, score: 90 }
     },
     mirova: {
       name: 'Mirova Europe Env. Equity',
-      fees: 0.0080,
-      returns: { 1: 0.051, 3: 0.036, 5: 0.072, 10: 0.068 }
+      isin: 'FR0010521503',
+      fees: 0.0178,
+      returns: { 1: 0.1659, 3: 0.0283, 5: 0.0166, 10: 0.0680 },
+      esg: { msci: 'AAA', morningstar: 5, sfdr: 9, score: 100 }
     },
     lbp: {
       name: 'La Banque Postale Multi Actions',
-      fees: 0.0045,
-      returns: { 1: 0.063, 3: 0.047, 5: 0.055, 10: 0.049 }
+      isin: 'FR0010913916',
+      fees: 0.0155,
+      returns: { 1: 0.0474, 3: 0.1310, 5: 0.0968, 10: 0.0792 },
+      esg: { msci: 'AA', morningstar: 4, sfdr: 9, score: 83 }
     }
   };
 
@@ -236,6 +246,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ESG score helpers
+  function esgScoreLabel(score) {
+    if (score >= 90) return 'Excellent';
+    if (score >= 75) return 'Très bon';
+    if (score >= 60) return 'Bon';
+    if (score >= 40) return 'Moyen';
+    return 'Faible';
+  }
+
+  function esgScoreColor(score) {
+    if (score >= 90) return 'var(--green)';
+    if (score >= 75) return 'var(--green-light)';
+    if (score >= 60) return 'var(--gold)';
+    return 'var(--text-muted)';
+  }
+
+  function renderGlobes(count) {
+    let html = '';
+    for (let i = 0; i < 5; i++) {
+      html += '<span class="esg-globe' + (i < count ? ' esg-globe--filled' : '') + '">\u25CF</span>';
+    }
+    return html;
+  }
+
   // Render results table and bars
   function renderResults() {
     const capitalInput = document.getElementById('sim-capital');
@@ -259,25 +293,43 @@ document.addEventListener('DOMContentLoaded', () => {
       const gains = {};
 
       horizons.forEach(h => {
-        values[h] = calculateFutureValue(perFundCapital, fund.returns[h], fund.fees, h);
-        gains[h] = values[h] - perFundCapital;
+        const ret = fund.returns[h];
+        if (ret !== null) {
+          values[h] = calculateFutureValue(perFundCapital, ret, fund.fees, h);
+          gains[h] = values[h] - perFundCapital;
+        } else {
+          values[h] = null;
+          gains[h] = null;
+        }
       });
 
-      barData.push({ key, name: fund.name, values, gains });
+      barData.push({ key, name: fund.name, values, gains, esg: fund.esg });
 
       tableHTML += '<tr>';
       tableHTML += '<td class="sim-fund-name-cell">' + fund.name + '</td>';
       horizons.forEach(h => {
-        tableHTML += '<td>' + formatCurrency(values[h]) + '</td>';
+        if (values[h] !== null) {
+          tableHTML += '<td>' + formatCurrency(values[h]) + '</td>';
+        } else {
+          tableHTML += '<td class="sim-na">N/A</td>';
+        }
       });
+      tableHTML += '<td class="sim-esg-cell"><span class="sim-esg-badge" style="--esg-color:' + esgScoreColor(fund.esg.score) + '">' + fund.esg.score + '/100</span></td>';
       tableHTML += '</tr>';
 
       tableHTML += '<tr class="sim-gain-row">';
       tableHTML += '<td></td>';
       horizons.forEach(h => {
-        const gainPct = gains[h] / perFundCapital;
-        tableHTML += '<td class="sim-gain-positive">+' + formatCurrency(gains[h]) + ' (' + formatPercent(gainPct) + ')</td>';
+        if (gains[h] !== null) {
+          const gainPct = gains[h] / perFundCapital;
+          const sign = gains[h] >= 0 ? '+' : '';
+          const cls = gains[h] >= 0 ? 'sim-gain-positive' : 'sim-gain-negative';
+          tableHTML += '<td class="' + cls + '">' + sign + formatCurrency(gains[h]) + ' (' + formatPercent(gainPct) + ')</td>';
+        } else {
+          tableHTML += '<td class="sim-na">—</td>';
+        }
       });
+      tableHTML += '<td></td>';
       tableHTML += '</tr>';
     });
 
@@ -286,6 +338,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Store data for horizon switching
     resultsDiv._barData = barData;
     resultsDiv._perFundCapital = perFundCapital;
+
+    // Render ESG summary panel
+    renderEsgPanel(barData);
 
     // Show results with animation replay
     resultsDiv.hidden = true;
@@ -296,6 +351,43 @@ document.addEventListener('DOMContentLoaded', () => {
     resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  // Render ESG panel below bars
+  function renderEsgPanel(barData) {
+    const container = document.getElementById('sim-esg-panel');
+    if (!container) return;
+
+    // Weighted average ESG score (equal weight since equal capital split)
+    const avgScore = Math.round(barData.reduce((s, d) => s + d.esg.score, 0) / barData.length);
+
+    let html = '<div class="esg-panel-header">';
+    html += '<div class="esg-panel-score-ring" style="--esg-pct: ' + avgScore + '%; --esg-color: ' + esgScoreColor(avgScore) + '">';
+    html += '<span class="esg-panel-score-value">' + avgScore + '</span>';
+    html += '<span class="esg-panel-score-max">/100</span>';
+    html += '</div>';
+    html += '<div class="esg-panel-score-info">';
+    html += '<div class="esg-panel-score-label">' + esgScoreLabel(avgScore) + '</div>';
+    html += '<div class="esg-panel-score-desc">Score ESG moyen de votre portefeuille</div>';
+    html += '</div>';
+    html += '</div>';
+
+    html += '<div class="esg-panel-funds">';
+    barData.forEach(d => {
+      const e = d.esg;
+      html += '<div class="esg-fund-row">';
+      html += '<div class="esg-fund-name">' + d.name + '</div>';
+      html += '<div class="esg-fund-details">';
+      html += '<span class="esg-tag esg-tag--sfdr">Art. ' + e.sfdr + '</span>';
+      html += '<span class="esg-tag esg-tag--msci">MSCI ' + e.msci + '</span>';
+      html += '<span class="esg-globes">' + renderGlobes(e.morningstar) + '</span>';
+      html += '<span class="esg-fund-score" style="color:' + esgScoreColor(e.score) + '">' + e.score + '/100</span>';
+      html += '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+
+    container.innerHTML = html;
+  }
+
   // Render horizontal bar chart
   function renderBars(horizon) {
     const resultsDiv = document.getElementById('sim-results');
@@ -303,22 +395,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const barData = resultsDiv._barData;
     if (!barData) return;
 
-    const maxValue = Math.max(...barData.map(d => d.values[horizon]));
+    const validValues = barData.filter(d => d.values[horizon] !== null).map(d => d.values[horizon]);
+    const maxValue = validValues.length > 0 ? Math.max(...validValues) : 1;
 
     let barsHTML = '';
     barData.forEach((d, i) => {
       const value = d.values[horizon];
       const gain = d.gains[horizon];
-      const pct = (value / maxValue) * 100;
       const colorClass = i % 2 === 1 ? ' sim-bar-fill--alt' : '';
 
       barsHTML += '<div class="sim-bar-item">';
       barsHTML += '<div class="sim-bar-item-name">' + d.name + '</div>';
-      barsHTML += '<div class="sim-bar-track">';
-      barsHTML += '<div class="sim-bar-fill' + colorClass + '" style="width: 0%;" data-target-width="' + pct + '%">';
-      barsHTML += '<span class="sim-bar-value">' + formatCurrency(value) + '</span>';
-      barsHTML += '</div></div>';
-      barsHTML += '<div class="sim-bar-gain">+' + formatCurrency(gain) + '</div>';
+
+      if (value !== null) {
+        const pct = (value / maxValue) * 100;
+        const sign = gain >= 0 ? '+' : '';
+        const gainClass = gain >= 0 ? 'sim-bar-gain' : 'sim-bar-gain sim-bar-gain--negative';
+        barsHTML += '<div class="sim-bar-track">';
+        barsHTML += '<div class="sim-bar-fill' + colorClass + '" style="width: 0%;" data-target-width="' + pct + '%">';
+        barsHTML += '<span class="sim-bar-value">' + formatCurrency(value) + '</span>';
+        barsHTML += '</div></div>';
+        barsHTML += '<div class="' + gainClass + '">' + sign + formatCurrency(gain) + '</div>';
+      } else {
+        barsHTML += '<div class="sim-bar-track">';
+        barsHTML += '<div class="sim-bar-fill sim-bar-fill--na" style="width: 0%;" data-target-width="15%">';
+        barsHTML += '<span class="sim-bar-value">N/A</span>';
+        barsHTML += '</div></div>';
+        barsHTML += '<div class="sim-bar-gain sim-bar-gain--na">Données non disponibles</div>';
+      }
+
       barsHTML += '</div>';
     });
 
