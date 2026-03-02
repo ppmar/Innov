@@ -1411,6 +1411,48 @@ body {
   opacity: 0.7;
 }
 
+/* ===== HAMBURGER BUTTON ===== */
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background var(--transition);
+}
+
+.nav-burger:hover {
+  background: var(--green-muted);
+}
+
+.nav-burger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--navy);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.nav-burger--open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-burger--open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-burger--open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
   .hero-container {
@@ -1447,26 +1489,71 @@ body {
 }
 
 @media (max-width: 640px) {
-  .nav-links { display: none; }
+  /* --- Nav: hamburger + slide-down menu --- */
+  .nav-burger {
+    display: flex;
+  }
 
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: rgba(250, 248, 245, 0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 16px 16px;
+    gap: 4px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    z-index: 99;
+  }
+
+  .nav-links--open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-links a {
+    padding: 12px 16px;
+    font-size: 15px;
+    border-radius: 8px;
+  }
+
+  .nav-links a:hover {
+    background: var(--green-muted);
+  }
+
+  .nav-links a::after {
+    display: none;
+  }
+
+  /* --- Hero --- */
   .hero-container {
-    padding: 40px 20px 60px;
+    padding: 32px 16px 48px;
   }
 
   .hero-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
-  /* Stack cards vertically on small screens */
   .hero-visual {
     min-height: auto;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
     padding: 10px 0;
+    align-items: center;
   }
 
   .hero-visual::before {
@@ -1479,7 +1566,7 @@ body {
     top: auto;
     right: auto;
     width: 100%;
-    max-width: 300px;
+    max-width: 100%;
     transform: none;
     filter: none;
     opacity: 1;
@@ -1490,15 +1577,28 @@ body {
     order: 1;
   }
 
-  /* Disable will-change on mobile to save memory */
   [data-parallax],
   .hero-bg {
     will-change: auto;
   }
 
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* --- Stats --- */
+  .stats-band {
+    padding: 32px 16px 24px;
+  }
+
   .stats-inner {
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
     align-items: center;
   }
 
@@ -1508,63 +1608,176 @@ body {
   }
 
   .stat-value {
-    font-size: 2.4rem;
+    font-size: 2.2rem;
   }
 
+  .stat-desc {
+    font-size: 13px;
+  }
+
+  /* --- Sections --- */
   .section {
-    padding: 48px 20px;
+    padding: 40px 16px;
   }
 
   .section h2 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
-  .hero-actions {
-    flex-direction: column;
+  .section-lead {
+    font-size: 1rem;
   }
 
-  .btn {
-    justify-content: center;
+  .problematique {
+    padding: 16px 18px;
+    font-size: 0.95rem;
   }
 
+  /* --- Carousel: native swipe --- */
+  .carousel {
+    padding: 0 16px;
+  }
+
+  .carousel-btn {
+    display: none;
+  }
+
+  .carousel-track-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .carousel-track-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel-track {
+    transition: none;
+  }
+
+  .fund-card {
+    scroll-snap-align: center;
+    flex: 0 0 85vw;
+    max-width: 320px;
+  }
+
+  .fund-desc {
+    font-size: 12px;
+  }
+
+  /* --- Simulator --- */
   .sim-funds-grid {
     grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .sim-fund-toggle {
+    padding: 14px 14px;
+  }
+
+  .sim-fund-toggle-name {
+    font-size: 13px;
   }
 
   .sim-input-wrapper {
     max-width: 100%;
   }
 
+  .sim-input {
+    font-size: 1.2rem;
+    padding: 12px 44px 12px 16px;
+  }
+
+  .sim-calculate-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* --- Sim table: scrollable with sticky first col --- */
+  .sim-table-wrapper {
+    margin-left: -16px;
+    margin-right: -16px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .sim-table {
+    font-size: 12px;
+    min-width: 560px;
+  }
+
+  .sim-table th,
+  .sim-table td {
+    padding: 10px 8px;
+    white-space: nowrap;
+  }
+
+  .sim-fund-name-cell {
+    max-width: 130px;
+    font-size: 11px;
+  }
+
+  .sim-gain-row td {
+    font-size: 10px;
+  }
+
+  /* --- Sim bars --- */
   .sim-bar-item {
     flex-wrap: wrap;
+    gap: 6px;
   }
 
   .sim-bar-item-name {
     flex: 1 1 100%;
     text-align: left;
-    margin-bottom: 4px;
+    margin-bottom: 0;
+    font-size: 12px;
   }
 
   .sim-bar-track {
-    height: 24px;
+    height: 26px;
+    flex: 1;
   }
 
+  .sim-bar-gain {
+    font-size: 11px;
+    min-width: 60px;
+  }
+
+  .sim-bar-value {
+    font-size: 11px;
+  }
+
+  .sim-bar-fill {
+    min-width: 65px;
+  }
+
+  /* --- Horizon selector --- */
   .sim-horizon-selector {
     flex-direction: column;
     align-items: flex-start;
+    gap: 8px;
   }
 
-  .sim-table {
-    font-size: 13px;
+  .sim-horizon-btns {
+    width: 100%;
+    justify-content: stretch;
   }
 
-  .sim-table th,
-  .sim-table td {
-    padding: 10px 10px;
+  .sim-horizon-btn {
+    flex: 1;
+    text-align: center;
+    padding: 8px 8px;
+    font-size: 12px;
   }
 
+  /* --- ESG Panel --- */
   .esg-panel {
-    padding: 20px 16px;
+    padding: 20px 14px;
+    margin: 20px 0;
   }
 
   .esg-panel-header {
@@ -1573,14 +1786,56 @@ body {
     gap: 12px;
   }
 
+  .esg-panel-score-ring {
+    width: 72px;
+    height: 72px;
+  }
+
+  .esg-panel-score-value {
+    font-size: 1.3rem;
+  }
+
+  .esg-panel-score-label {
+    font-size: 1rem;
+  }
+
+  .esg-panel-score-desc {
+    font-size: 13px;
+  }
+
   .esg-fund-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 6px;
+    padding: 10px 12px;
+  }
+
+  .esg-fund-name {
+    font-size: 12px;
+    white-space: normal;
   }
 
   .esg-fund-details {
     flex-wrap: wrap;
     gap: 6px;
+  }
+
+  .esg-fund-score {
+    font-size: 12px;
+  }
+
+  /* --- Team --- */
+  .team-grid {
+    flex-direction: column;
+  }
+
+  .team-member {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* --- Footer --- */
+  .footer {
+    padding: 24px 16px;
   }
 }

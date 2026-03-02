@@ -2,6 +2,26 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ---- Mobile Nav Hamburger ---- */
+  const burger = document.getElementById('nav-burger');
+  const navLinks = document.getElementById('nav-links');
+
+  if (burger && navLinks) {
+    burger.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('nav-links--open');
+      burger.classList.toggle('nav-burger--open', open);
+      burger.setAttribute('aria-expanded', open);
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('nav-links--open');
+        burger.classList.remove('nav-burger--open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
   /* ---- Detect mobile for parallax disable ---- */
   const isMobile = window.matchMedia('(max-width: 640px)').matches;
 
