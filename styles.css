@@ -1537,7 +1537,9 @@ body {
 
   /* --- Hero --- */
   .hero-container {
+    grid-template-columns: 1fr;
     padding: 32px 16px 48px;
+    text-align: center;
   }
 
   .hero-title {
@@ -1546,35 +1548,19 @@ body {
 
   .hero-subtitle {
     font-size: 0.95rem;
+    margin: 0 auto 24px;
   }
 
-  .hero-visual {
-    min-height: auto;
-    flex-direction: column;
-    gap: 12px;
-    padding: 10px 0;
-    align-items: center;
-  }
-
-  .hero-visual::before {
+  .hero-badge {
     display: none;
   }
 
-  .hero-card--front,
-  .hero-card--back {
-    position: relative;
-    top: auto;
-    right: auto;
-    width: 100%;
-    max-width: 100%;
-    transform: none;
-    filter: none;
-    opacity: 1;
+  .hero-visual {
+    display: none;
   }
 
-  .hero-card--back {
-    opacity: 0.75;
-    order: 1;
+  .hero-title::after {
+    margin: 16px auto 0;
   }
 
   [data-parallax],
