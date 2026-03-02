@@ -958,6 +958,195 @@ body {
   color: var(--text-muted);
 }
 
+/* ===== RISK PROFILE SLIDER ===== */
+.sim-risk-section {
+  margin-bottom: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.sim-risk-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.sim-risk-header .sim-label {
+  margin-bottom: 0;
+}
+
+.sim-risk-value {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--green);
+  padding: 4px 14px;
+  background: rgba(11, 61, 44, 0.08);
+  border-radius: 20px;
+}
+
+.sim-risk-slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sim-risk-end {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sim-risk-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--green) var(--fill, 50%), var(--border) var(--fill, 50%));
+  outline: none;
+  cursor: pointer;
+}
+
+.sim-risk-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--green);
+  border: 3px solid var(--surface);
+  box-shadow: 0 2px 8px rgba(11, 61, 44, 0.3);
+  cursor: grab;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sim-risk-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 3px 12px rgba(11, 61, 44, 0.4);
+}
+
+.sim-risk-slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+.sim-risk-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--green);
+  border: 3px solid var(--surface);
+  box-shadow: 0 2px 8px rgba(11, 61, 44, 0.3);
+  cursor: grab;
+}
+
+.sim-risk-ticks {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 46px 0;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Allocation preview */
+.sim-allocation-preview {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+.alloc-empty {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 8px 0;
+}
+
+.alloc-stacked-bar {
+  display: flex;
+  height: 14px;
+  border-radius: 7px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.alloc-segment {
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  min-width: 4px;
+}
+
+.alloc-segment:first-child {
+  border-radius: 7px 0 0 7px;
+}
+
+.alloc-segment:last-child {
+  border-radius: 0 7px 7px 0;
+}
+
+.alloc-segment:only-child {
+  border-radius: 7px;
+}
+
+.alloc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.alloc-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.alloc-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.alloc-legend-name {
+  color: var(--text-secondary);
+  font-weight: 500;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.alloc-legend-pct {
+  font-weight: 800;
+  color: var(--navy);
+}
+
+/* Allocation tag in results table */
+.sim-alloc-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--green);
+  background: rgba(11, 61, 44, 0.08);
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.sim-invested-tag {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
 .sim-calculate-btn {
   margin-bottom: 40px;
 }
@@ -1679,6 +1868,27 @@ body {
   .sim-calculate-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .sim-risk-section {
+    padding: 18px 14px;
+  }
+
+  .sim-risk-slider-wrap {
+    gap: 10px;
+  }
+
+  .sim-risk-ticks {
+    padding: 4px 36px 0;
+  }
+
+  .alloc-legend {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .alloc-legend-name {
+    max-width: 140px;
   }
 
   /* --- Sim table: scrollable with sticky first col --- */
