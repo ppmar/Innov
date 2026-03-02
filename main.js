@@ -1,4 +1,4 @@
-/* Innov Solution — JS (sobriete numerique) */
+/* TransInvestment — JS (sobriete numerique) */
 
 document.addEventListener('DOMContentLoaded', () => {
 
