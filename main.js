@@ -251,102 +251,184 @@ document.addEventListener('DOMContentLoaded', () => {
     }).format(value);
   }
 
-  // Fund toggle selection
-  const simToggles = document.querySelectorAll('.sim-fund-toggle');
-  const simCalculateBtn = document.getElementById('sim-calculate');
-  const selectedFunds = new Set();
+  // ---- Quiz data ----
+  const QUESTIONS = [
+    { q: 'Quel est votre horizon d\'investissement ?', options: [
+      { label: 'Moins de 2 ans', r: 1, e: 0 },
+      { label: '2 à 5 ans', r: 2, e: 0 },
+      { label: '5 à 10 ans', r: 3, e: 0 },
+      { label: 'Plus de 10 ans', r: 4, e: 0 }
+    ]},
+    { q: 'Quel est votre objectif principal ?', options: [
+      { label: 'Préserver mon capital', r: 1, e: 0 },
+      { label: 'Obtenir des revenus réguliers', r: 2, e: 0 },
+      { label: 'Faire croître mon capital', r: 3, e: 0 },
+      { label: 'Maximiser l\'impact environnemental', r: 2, e: 3 }
+    ]},
+    { q: 'Si votre portefeuille perdait 15 % en un mois, que feriez-vous ?', options: [
+      { label: 'Je vends tout immédiatement', r: 1, e: 0 },
+      { label: 'J\'attends que ça remonte', r: 2, e: 0 },
+      { label: 'Je ne change rien à ma stratégie', r: 3, e: 0 },
+      { label: 'J\'investis davantage pour profiter de la baisse', r: 4, e: 0 }
+    ]},
+    { q: 'Quelle part de votre épargne totale représente cet investissement ?', options: [
+      { label: 'Plus de 50 %', r: 1, e: 0 },
+      { label: 'Entre 25 % et 50 %', r: 2, e: 0 },
+      { label: 'Entre 10 % et 25 %', r: 3, e: 0 },
+      { label: 'Moins de 10 %', r: 4, e: 0 }
+    ]},
+    { q: 'Quelle est votre expérience en investissement ?', options: [
+      { label: 'Aucune expérience', r: 1, e: 0 },
+      { label: 'Livrets d\'épargne ou fonds euros', r: 2, e: 0 },
+      { label: 'Actions ou ETF', r: 3, e: 0 },
+      { label: 'Portefeuille diversifié (actions, obligations, immobilier...)', r: 4, e: 0 }
+    ]},
+    { q: 'Quelle importance accordez-vous aux critères environnementaux, sociaux et de gouvernance (ESG) ?', options: [
+      { label: 'Aucune importance particulière', r: 0, e: 0 },
+      { label: 'C\'est un plus, mais pas décisif', r: 0, e: 1 },
+      { label: 'C\'est un critère important dans mes choix', r: 0, e: 2 },
+      { label: 'C\'est prioritaire, même si le rendement est moindre', r: 0, e: 3 }
+    ]},
+    { q: 'Souhaitez-vous exclure les investissements liés aux énergies fossiles ?', options: [
+      { label: 'Non, pas nécessairement', r: 0, e: 0 },
+      { label: 'De préférence oui', r: 0, e: 1 },
+      { label: 'Oui, absolument', r: 0, e: 2 }
+    ]},
+    { q: 'Préférez-vous investir en Europe ou diversifier mondialement ?', options: [
+      { label: 'Europe uniquement', r: 2, e: 1 },
+      { label: 'Principalement en Europe', r: 2, e: 0 },
+      { label: 'Diversification mondiale', r: 3, e: 0 }
+    ]},
+    { q: 'Avez-vous besoin de pouvoir retirer votre argent facilement ?', options: [
+      { label: 'Oui, je dois pouvoir retirer à tout moment', r: 1, e: 0 },
+      { label: 'Dans les 6 mois si besoin', r: 2, e: 0 },
+      { label: 'Non, c\'est un placement long terme', r: 3, e: 0 }
+    ]},
+    { q: 'Quel type d\'impact durable vous parle le plus ?', options: [
+      { label: 'Bonne gouvernance des entreprises', r: 0, e: 1 },
+      { label: 'Transition énergétique et climat', r: 0, e: 2 },
+      { label: 'Impact social et solidaire', r: 0, e: 1 },
+      { label: 'Tous ces aspects à la fois', r: 0, e: 2 }
+    ]}
+  ];
 
-  simToggles.forEach(toggle => {
-    toggle.addEventListener('click', () => {
-      const fundKey = toggle.dataset.fund;
-      const isSelected = toggle.getAttribute('aria-pressed') === 'true';
-      if (isSelected) {
-        toggle.setAttribute('aria-pressed', 'false');
-        selectedFunds.delete(fundKey);
-      } else {
-        toggle.setAttribute('aria-pressed', 'true');
-        selectedFunds.add(fundKey);
-      }
-      simCalculateBtn.disabled = selectedFunds.size === 0;
-      updateAllocationPreview();
-    });
-  });
-
-  // Risk profile slider
-  const riskSlider = document.getElementById('sim-risk-slider');
-  const riskLabel = document.getElementById('sim-risk-label');
-  const allocationPreview = document.getElementById('sim-allocation-preview');
   const RISK_LABELS = { 1: 'Prudent', 2: 'Modéré', 3: 'Équilibré', 4: 'Croissance', 5: 'Dynamique' };
 
-  function getRiskValue() {
-    return parseInt(riskSlider.value, 10);
+  // ---- Quiz state ----
+  let quizStep = 0;
+  const quizAnswers = new Array(QUESTIONS.length).fill(null);
+
+  const quizEl = document.getElementById('quiz');
+  const quizQuestion = document.getElementById('quiz-question');
+  const quizOptions = document.getElementById('quiz-options');
+  const quizCounter = document.getElementById('quiz-counter');
+  const quizProgressBar = document.getElementById('quiz-progress-bar');
+  const quizPrev = document.getElementById('quiz-prev');
+  const quizNext = document.getElementById('quiz-next');
+
+  function renderQuiz() {
+    const q = QUESTIONS[quizStep];
+    const isLast = quizStep === QUESTIONS.length - 1;
+
+    quizCounter.textContent = 'Question ' + (quizStep + 1) + ' / ' + QUESTIONS.length;
+    quizProgressBar.style.width = ((quizStep + 1) / QUESTIONS.length * 100) + '%';
+    quizQuestion.textContent = q.q;
+
+    let html = '';
+    q.options.forEach((opt, i) => {
+      const selected = quizAnswers[quizStep] === i;
+      html += '<button class="quiz-option' + (selected ? ' quiz-option--selected' : '') + '" data-idx="' + i + '">';
+      html += '<span class="quiz-option-radio"></span>';
+      html += '<span class="quiz-option-label">' + opt.label + '</span>';
+      html += '</button>';
+    });
+    quizOptions.innerHTML = html;
+
+    // Bind option clicks
+    quizOptions.querySelectorAll('.quiz-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        quizAnswers[quizStep] = parseInt(btn.dataset.idx, 10);
+        renderQuiz();
+        // Auto-advance after short delay
+        setTimeout(() => {
+          if (isLast) {
+            finishQuiz();
+          } else {
+            quizStep++;
+            renderQuiz();
+          }
+        }, 300);
+      });
+    });
+
+    quizPrev.disabled = quizStep === 0;
+    quizNext.disabled = quizAnswers[quizStep] === null;
+    quizNext.innerHTML = isLast
+      ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Voir mon portefeuille'
+      : 'Suivant <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>';
   }
 
-  function computeAllocations(fundKeys, riskValue) {
-    if (fundKeys.length === 0) return {};
-    // Normalize slider 1-5 to fund riskLevel scale
+  function computeProfile() {
+    let totalR = 0, totalE = 0, maxR = 0, maxE = 0;
+    QUESTIONS.forEach((q, i) => {
+      const ans = quizAnswers[i];
+      if (ans !== null) {
+        totalR += q.options[ans].r;
+        totalE += q.options[ans].e;
+      }
+      maxR += Math.max(...q.options.map(o => o.r));
+      maxE += Math.max(...q.options.map(o => o.e));
+    });
+    // Normalize to 1-5
+    const riskProfile = Math.max(1, Math.min(5, Math.round(1 + (totalR / maxR) * 4)));
+    const esgPriority = maxE > 0 ? Math.max(1, Math.min(5, Math.round(1 + (totalE / maxE) * 4))) : 1;
+    return { riskProfile, esgPriority };
+  }
+
+  function computeAllocations(riskProfile, esgPriority) {
+    const keys = Object.keys(FUND_DATA);
     const weights = {};
     let total = 0;
-    fundKeys.forEach(key => {
+    keys.forEach(key => {
       const fund = FUND_DATA[key];
-      const distance = Math.abs(fund.riskLevel - riskValue);
-      const w = Math.max(0.05, 1 - distance * 0.25);
+      const riskW = Math.max(0.05, 1 - Math.abs(fund.riskLevel - riskProfile) * 0.25);
+      const esgW = (fund.esg.score / 100) * (esgPriority / 5);
+      const w = riskW + esgW * 0.5;
       weights[key] = w;
       total += w;
     });
-    // Normalize to percentages
-    fundKeys.forEach(key => {
-      weights[key] = weights[key] / total;
+    // Normalize, enforce min 3%
+    let sum2 = 0;
+    keys.forEach(key => {
+      weights[key] = Math.max(0.03, weights[key] / total);
+      sum2 += weights[key];
     });
+    keys.forEach(key => { weights[key] /= sum2; });
     return weights;
   }
 
-  function updateAllocationPreview() {
-    if (!allocationPreview) return;
-    const riskValue = getRiskValue();
-    riskLabel.textContent = RISK_LABELS[riskValue];
-
-    // Update slider fill
-    const pct = ((riskValue - 1) / 4) * 100;
-    riskSlider.style.setProperty('--fill', pct + '%');
-
-    if (selectedFunds.size === 0) {
-      allocationPreview.innerHTML = '<div class="alloc-empty">Sélectionnez des fonds pour voir la répartition</div>';
-      return;
-    }
-
-    const keys = [...selectedFunds];
-    const allocations = computeAllocations(keys, riskValue);
-
-    // Stacked bar
-    let barHTML = '<div class="alloc-stacked-bar">';
-    keys.forEach(key => {
-      const fund = FUND_DATA[key];
-      const pct = (allocations[key] * 100).toFixed(1);
-      barHTML += '<div class="alloc-segment" style="width:' + pct + '%;background:' + fund.color + '" title="' + fund.name + ' : ' + pct + '%"></div>';
-    });
-    barHTML += '</div>';
-
-    // Legend
-    barHTML += '<div class="alloc-legend">';
-    keys.forEach(key => {
-      const fund = FUND_DATA[key];
-      const pct = (allocations[key] * 100).toFixed(0);
-      barHTML += '<div class="alloc-legend-item">';
-      barHTML += '<span class="alloc-legend-dot" style="background:' + fund.color + '"></span>';
-      barHTML += '<span class="alloc-legend-name">' + fund.name + '</span>';
-      barHTML += '<span class="alloc-legend-pct">' + pct + ' %</span>';
-      barHTML += '</div>';
-    });
-    barHTML += '</div>';
-
-    allocationPreview.innerHTML = barHTML;
+  function finishQuiz() {
+    const profile = computeProfile();
+    const allocations = computeAllocations(profile.riskProfile, profile.esgPriority);
+    quizEl.style.display = 'none';
+    renderResultsFromQuiz(profile, allocations);
   }
 
-  if (riskSlider) {
-    riskSlider.addEventListener('input', updateAllocationPreview);
-    updateAllocationPreview();
+  // Nav buttons
+  if (quizPrev) {
+    quizPrev.addEventListener('click', () => {
+      if (quizStep > 0) { quizStep--; renderQuiz(); }
+    });
   }
+  if (quizNext) {
+    quizNext.addEventListener('click', () => {
+      if (quizAnswers[quizStep] === null) return;
+      if (quizStep < QUESTIONS.length - 1) { quizStep++; renderQuiz(); }
+      else { finishQuiz(); }
+    });
+  }
+
+  if (quizEl) renderQuiz();
 
   // ESG score helpers
   function esgScoreLabel(score) {
@@ -372,25 +454,20 @@ document.addEventListener('DOMContentLoaded', () => {
     return html;
   }
 
-  // Render results table and bars
-  function renderResults() {
+  // Render results from quiz profile
+  function renderResultsFromQuiz(profile, allocations) {
     const capitalInput = document.getElementById('sim-capital');
-    const totalCapital = parseFloat(capitalInput.value) || 0;
-    if (totalCapital < 100 || selectedFunds.size === 0) return;
+    const totalCapital = parseFloat(capitalInput.value) || 10000;
 
-    const riskValue = getRiskValue();
-    const keys = [...selectedFunds];
-    const allocations = computeAllocations(keys, riskValue);
-
+    const keys = Object.keys(FUND_DATA);
     const resultsDiv = document.getElementById('sim-results');
     const tbody = document.getElementById('sim-table-body');
 
     document.getElementById('sim-results-capital').textContent = formatCurrency(totalCapital);
-    document.getElementById('sim-results-count').textContent = selectedFunds.size;
+    document.getElementById('sim-results-count').textContent = keys.length;
 
-    // Update profile label in results subtitle
     const profileEl = document.getElementById('sim-results-profile');
-    if (profileEl) profileEl.textContent = RISK_LABELS[riskValue];
+    if (profileEl) profileEl.textContent = RISK_LABELS[profile.riskProfile];
 
     const horizons = [1, 3, 5, 10];
     let tableHTML = '';
@@ -414,10 +491,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const allocPct = (allocations[key] * 100).toFixed(0);
-      barData.push({ key, name: fund.name, values, gains, esg: fund.esg, allocPct, fundCapital });
+      barData.push({ key, name: fund.name, values, gains, esg: fund.esg, allocPct, fundCapital, alloc: allocations[key] });
 
       tableHTML += '<tr>';
-      tableHTML += '<td class="sim-fund-name-cell">' + fund.name + ' <span class="sim-alloc-tag">' + allocPct + '%</span></td>';
+      tableHTML += '<td class="sim-fund-name-cell">' + fund.name + ' <span class="sim-alloc-tag">' + allocPct + ' %</span></td>';
       horizons.forEach(h => {
         if (values[h] !== null) {
           tableHTML += '<td>' + formatCurrency(values[h]) + '</td>';
@@ -448,7 +525,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Store data for horizon switching
     resultsDiv._barData = barData;
-    resultsDiv._perFundCapital = perFundCapital;
 
     // Render ESG summary panel
     renderEsgPanel(barData);
@@ -459,6 +535,23 @@ document.addEventListener('DOMContentLoaded', () => {
     resultsDiv.hidden = false;
 
     renderBars(5);
+
+    // Add restart button if not already present
+    if (!resultsDiv.querySelector('.quiz-restart-btn')) {
+      const restartBtn = document.createElement('button');
+      restartBtn.className = 'btn btn-secondary quiz-restart-btn';
+      restartBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg> Refaire le questionnaire';
+      restartBtn.addEventListener('click', () => {
+        quizStep = 0;
+        quizAnswers.fill(null);
+        resultsDiv.hidden = true;
+        quizEl.style.display = '';
+        renderQuiz();
+        quizEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      resultsDiv.appendChild(restartBtn);
+    }
+
     resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -468,10 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!container) return;
 
     // Weighted average ESG score based on allocation
-    const riskValue = getRiskValue();
-    const keys = barData.map(d => d.key);
-    const allocs = computeAllocations(keys, riskValue);
-    const avgScore = Math.round(barData.reduce((s, d) => s + d.esg.score * allocs[d.key], 0));
+    const avgScore = Math.round(barData.reduce((s, d) => s + d.esg.score * d.alloc, 0));
 
     let html = '<div class="esg-panel-header">';
     html += '<div class="esg-panel-score-ring" style="--esg-pct: ' + avgScore + '%; --esg-color: ' + esgScoreColor(avgScore) + '">';
@@ -552,16 +642,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-
-  // Calculate button
-  simCalculateBtn.addEventListener('click', renderResults);
-
-  // Enter key in capital input
-  document.getElementById('sim-capital').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && selectedFunds.size > 0) {
-      renderResults();
-    }
-  });
 
   // Horizon switcher
   document.querySelectorAll('.sim-horizon-btn').forEach(btn => {
