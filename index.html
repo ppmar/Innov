@@ -28,6 +28,7 @@
         <a href="#outil">L'outil</a>
         <a href="#fonds">Fonds</a>
         <a href="#simulateur">Simulateur</a>
+        <a href="#methodologie">Méthodologie</a>
         <a href="#equipe">Équipe</a>
       </div>
       <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
@@ -408,6 +409,162 @@
         <div class="esg-panel" id="sim-esg-panel"></div>
 
         <p class="sim-disclaimer">Les performances passées ne préjugent pas des performances futures. Simulation indicative basée sur les rendements annualisés historiques, nette de frais courants. Hors fiscalité et inflation. Scores ESG composites calculés à partir des notations MSCI ESG et Morningstar Sustainability.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== METHODOLOGIE ===== -->
+  <section class="section parallax-section" id="methodologie">
+    <div class="section-container">
+      <span class="section-tag">Transparence</span>
+      <h2>Comment fonctionne l'outil ?</h2>
+      <p class="section-lead">Chaque calcul est explicable. Voici le détail de la méthodologie utilisée pour les projections, la répartition et les scores ESG.</p>
+
+      <div class="method-accordions">
+
+        <details class="method-block">
+          <summary class="method-summary">
+            <span class="method-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7h6m-6 4h6m-6 4h4M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
+            </span>
+            <span class="method-title">Projections de rendement</span>
+            <span class="method-chevron">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </summary>
+          <div class="method-content">
+            <p>Les projections utilisent la formule des <strong>intérêts composés nets de frais</strong> :</p>
+            <div class="method-formula">
+              V<sub>n</sub> = C &times; (1 + r &minus; f)<sup>n</sup>
+            </div>
+            <div class="method-legend">
+              <div class="method-legend-item"><strong>V<sub>n</sub></strong> = Valeur du capital après n années</div>
+              <div class="method-legend-item"><strong>C</strong> = Capital initial investi dans le fonds</div>
+              <div class="method-legend-item"><strong>r</strong> = Rendement annualisé historique du fonds</div>
+              <div class="method-legend-item"><strong>f</strong> = Frais courants annuels (TER)</div>
+              <div class="method-legend-item"><strong>n</strong> = Nombre d'années (1, 3, 5 ou 10)</div>
+            </div>
+            <p>Les rendements utilisés sont les <strong>rendements annualisés historiques</strong> publiés par les sociétés de gestion. La simulation est <strong>hors fiscalité et hors inflation</strong>. Les performances passées ne préjugent pas des performances futures.</p>
+          </div>
+        </details>
+
+        <details class="method-block">
+          <summary class="method-summary">
+            <span class="method-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
+            </span>
+            <span class="method-title">Algorithme de répartition</span>
+            <span class="method-chevron">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </summary>
+          <div class="method-content">
+            <p>L'allocation est calculée automatiquement à partir de votre <strong>profil de risque</strong> (1 à 5) et de votre <strong>priorité ESG</strong> (1 à 5), déterminés par le questionnaire.</p>
+            <h4>1. Score de risque par question</h4>
+            <p>Chaque réponse attribue un score de risque (<em>r</em>) et un score écologique (<em>e</em>). Les totaux sont normalisés sur une échelle de 1 à 5 :</p>
+            <div class="method-profiles">
+              <span class="method-profile-tag">1 — Prudent</span>
+              <span class="method-profile-tag">2 — Modéré</span>
+              <span class="method-profile-tag">3 — Équilibré</span>
+              <span class="method-profile-tag">4 — Croissance</span>
+              <span class="method-profile-tag">5 — Dynamique</span>
+            </div>
+            <h4>2. Poids de chaque fonds</h4>
+            <p>Chaque fonds a un <strong>niveau de risque intrinsèque</strong> (1 à 4). Le poids est calculé ainsi :</p>
+            <div class="method-formula">
+              w = max(0.05, 1 &minus; |risque<sub>fonds</sub> &minus; profil| &times; 0.25) + (score<sub>ESG</sub> / 100) &times; (priorité<sub>ESG</sub> / 5) &times; 0.5
+            </div>
+            <p>Les poids sont ensuite <strong>normalisés</strong> pour que la somme fasse 100 %, avec un minimum garanti de 3 % par fonds pour maintenir la diversification.</p>
+            <h4>Niveaux de risque des fonds</h4>
+            <div class="method-table-wrap">
+              <table class="method-table">
+                <thead><tr><th>Fonds</th><th>Niveau de risque</th><th>Type</th></tr></thead>
+                <tbody>
+                  <tr><td>BNP Paribas Green Bond</td><td>1 — Faible</td><td>Obligations vertes</td></tr>
+                  <tr><td>La Banque Postale Multi Actions</td><td>2 — Modéré</td><td>Mixte actions/obligations</td></tr>
+                  <tr><td>Amundi ISR Actions Europe</td><td>3 — Moyen</td><td>Actions Europe</td></tr>
+                  <tr><td>Mirova Europe Env. Equity</td><td>3 — Moyen</td><td>Actions impact</td></tr>
+                  <tr><td>Lyxor MSCI World ESG Leaders</td><td>4 — Élevé</td><td>ETF mondial</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+
+        <details class="method-block">
+          <summary class="method-summary">
+            <span class="method-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </span>
+            <span class="method-title">Scores ESG composites</span>
+            <span class="method-chevron">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </summary>
+          <div class="method-content">
+            <p>Le score ESG composite (sur 100) de chaque fonds est construit à partir de <strong>trois indicateurs indépendants</strong> :</p>
+            <div class="method-table-wrap">
+              <table class="method-table">
+                <thead><tr><th>Indicateur</th><th>Source</th><th>Échelle</th></tr></thead>
+                <tbody>
+                  <tr><td>Notation MSCI ESG</td><td>MSCI ESG Ratings</td><td>CCC à AAA (7 niveaux)</td></tr>
+                  <tr><td>Sustainability Rating</td><td>Morningstar Sustainalytics</td><td>1 à 5 globes</td></tr>
+                  <tr><td>Classification SFDR</td><td>Règlement UE 2019/2088</td><td>Article 6, 8 ou 9</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Le <strong>score ESG moyen du portefeuille</strong> est la moyenne pondérée des scores de chaque fonds, pondérée par l'allocation en pourcentage.</p>
+            <div class="method-table-wrap">
+              <table class="method-table">
+                <thead><tr><th>Fonds</th><th>MSCI</th><th>Morningstar</th><th>SFDR</th><th>Score</th></tr></thead>
+                <tbody>
+                  <tr><td>Amundi ISR Actions Europe</td><td>AA</td><td>4/5</td><td>Art. 8</td><td>83/100</td></tr>
+                  <tr><td>BNP Paribas Green Bond</td><td>A</td><td>5/5</td><td>Art. 9</td><td>86/100</td></tr>
+                  <tr><td>Lyxor MSCI World ESG Leaders</td><td>AAA</td><td>4/5</td><td>Art. 8</td><td>90/100</td></tr>
+                  <tr><td>Mirova Europe Env. Equity</td><td>AAA</td><td>5/5</td><td>Art. 9</td><td>100/100</td></tr>
+                  <tr><td>La Banque Postale Multi Actions</td><td>AA</td><td>4/5</td><td>Art. 9</td><td>83/100</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+
+        <details class="method-block">
+          <summary class="method-summary">
+            <span class="method-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            </span>
+            <span class="method-title">Sources et données</span>
+            <span class="method-chevron">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </summary>
+          <div class="method-content">
+            <h4>Données financières</h4>
+            <ul class="method-sources">
+              <li><strong>Rendements et frais</strong> — Documents d'information clé (DIC/DICI) et rapports annuels publiés par les sociétés de gestion (Amundi, BNP Paribas AM, Amundi/Lyxor, Mirova, La Banque Postale AM). Données consultées en janvier 2025.</li>
+              <li><strong>Rendements annualisés</strong> — Performances nettes de frais de gestion, brutes de fiscalité, calculées sur les horizons 1, 3, 5 et 10 ans lorsque disponibles.</li>
+            </ul>
+            <h4>Données ESG</h4>
+            <ul class="method-sources">
+              <li><strong>MSCI ESG Ratings</strong> — Notations ESG des fonds accessibles via MSCI Fund ESG Quality Scores. Échelle : CCC, B, BB, BBB, A, AA, AAA.</li>
+              <li><strong>Morningstar Sustainability Rating</strong> — Globes de durabilité attribués par Morningstar/Sustainalytics, basés sur le risque ESG non géré des positions du fonds.</li>
+              <li><strong>Classification SFDR</strong> — Règlement européen Sustainable Finance Disclosure Regulation (UE 2019/2088). Article 8 : promotion de caractéristiques ESG. Article 9 : investissement durable comme objectif.</li>
+            </ul>
+            <h4>Statistiques citées</h4>
+            <ul class="method-sources">
+              <li><strong>Sondage AMF/OpinionWay 2023</strong> — « Les Français et les placements responsables », enquête menée auprès de 1 013 personnes en novembre 2023 pour l'Autorité des marchés financiers.</li>
+            </ul>
+            <h4>Limites et avertissements</h4>
+            <ul class="method-sources">
+              <li>Les performances passées ne préjugent pas des performances futures.</li>
+              <li>Les projections ne tiennent pas compte de la fiscalité, de l'inflation, ni des éventuels frais d'entrée/sortie.</li>
+              <li>Les scores ESG composites sont une simplification pédagogique et ne constituent pas un conseil en investissement.</li>
+              <li>Cet outil a une vocation <strong>pédagogique</strong> et ne remplace pas l'avis d'un conseiller financier agréé.</li>
+            </ul>
+          </div>
+        </details>
+
       </div>
     </div>
   </section>
