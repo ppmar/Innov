@@ -226,6 +226,86 @@ document.addEventListener('DOMContentLoaded', () => {
       returns: { 1: 0.0474, 3: 0.1310, 5: 0.0968, 10: 0.0792 },
       esg: { msci: 'AA', morningstar: 4, sfdr: 9, score: 83 },
       riskLevel: 2, color: '#6d28d9'
+    },
+    amundi_world: {
+      name: 'Amundi MSCI World UCITS ETF',
+      isin: 'LU1681043599',
+      fees: 0.0038,
+      returns: { 1: 0.2310, 3: 0.1485, 5: 0.1315, 10: 0.1140 },
+      esg: { msci: 'BBB', morningstar: 3, sfdr: 6, score: 48 },
+      riskLevel: 4, color: '#3b82f6'
+    },
+    fidelity: {
+      name: 'Fidelity World Fund',
+      isin: 'LU0115773425',
+      fees: 0.0264,
+      returns: { 1: 0.2045, 3: 0.1320, 5: 0.1210, 10: 0.1085 },
+      esg: { msci: 'BBB', morningstar: 3, sfdr: 6, score: 43 },
+      riskLevel: 4, color: '#06b6d4'
+    },
+    jpmorgan_tech: {
+      name: 'JPMorgan US Technology Fund',
+      isin: 'LU0159052710',
+      fees: 0.0170,
+      returns: { 1: 0.3815, 3: 0.1840, 5: 0.1690, 10: 0.2130 },
+      esg: { msci: 'BB', morningstar: 2, sfdr: 6, score: 30 },
+      riskLevel: 5, color: '#f59e0b'
+    },
+    magellan: {
+      name: 'Magellan (Comgest)',
+      isin: 'FR0000292278',
+      fees: 0.0198,
+      returns: { 1: 0.0890, 3: 0.0145, 5: -0.0080, 10: 0.0415 },
+      esg: { msci: 'BBB', morningstar: 3, sfdr: 6, score: 43 },
+      riskLevel: 4, color: '#e11d48'
+    },
+    carmignac: {
+      name: 'Carmignac Patrimoine',
+      isin: 'FR0010135103',
+      fees: 0.0150,
+      returns: { 1: 0.0725, 3: 0.0410, 5: 0.0285, 10: 0.0215 },
+      esg: { msci: 'A', morningstar: 3, sfdr: 6, score: 53 },
+      riskLevel: 2, color: '#8b5cf6'
+    },
+    ishares_sp500: {
+      name: 'iShares Core S&P 500 ETF',
+      isin: 'IE00B5BMR087',
+      fees: 0.0007,
+      returns: { 1: 0.2580, 3: 0.1610, 5: 0.1495, 10: 0.1380 },
+      esg: { msci: 'A', morningstar: 3, sfdr: 6, score: 53 },
+      riskLevel: 4, color: '#10b981'
+    },
+    franklin_tech: {
+      name: 'Franklin Technology Fund',
+      isin: 'LU0109392836',
+      fees: 0.0181,
+      returns: { 1: 0.3560, 3: 0.1590, 5: 0.1420, 10: 0.1945 },
+      esg: { msci: 'BB', morningstar: 2, sfdr: 6, score: 30 },
+      riskLevel: 5, color: '#ec4899'
+    },
+    pictet: {
+      name: 'Pictet Global Megatrend Selection',
+      isin: 'LU0386882277',
+      fees: 0.0201,
+      returns: { 1: 0.1870, 3: 0.0985, 5: 0.0890, 10: 0.0935 },
+      esg: { msci: 'A', morningstar: 3, sfdr: 6, score: 53 },
+      riskLevel: 4, color: '#a855f7'
+    },
+    blackrock_energy: {
+      name: 'BlackRock World Energy Fund',
+      isin: 'LU0122376428',
+      fees: 0.0205,
+      returns: { 1: 0.0540, 3: 0.1260, 5: 0.1815, 10: 0.0390 },
+      esg: { msci: 'B', morningstar: 1, sfdr: 6, score: 13 },
+      riskLevel: 5, color: '#78716c'
+    },
+    oddo: {
+      name: 'Oddo BHF Avenir Europe',
+      isin: 'FR0000989899',
+      fees: 0.0175,
+      returns: { 1: 0.1430, 3: 0.0765, 5: 0.0810, 10: 0.0925 },
+      esg: { msci: 'BBB', morningstar: 3, sfdr: 6, score: 43 },
+      riskLevel: 3, color: '#0ea5e9'
     }
   };
 
@@ -440,8 +520,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function esgScoreColor(score) {
-    if (score >= 90) return 'var(--green)';
-    if (score >= 75) return 'var(--green-light)';
+    if (score >= 90) return 'var(--emerald)';
+    if (score >= 75) return 'var(--emerald-dim)';
     if (score >= 60) return 'var(--gold)';
     return 'var(--text-muted)';
   }
@@ -526,6 +606,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Store data for horizon switching
     resultsDiv._barData = barData;
 
+    // Render pie chart
+    renderPieChart(barData);
+
     // Render ESG summary panel
     renderEsgPanel(barData);
 
@@ -553,6 +636,105 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Render pie chart for allocation
+  function renderPieChart(barData) {
+    const svg = document.getElementById('pie-chart');
+    const legend = document.getElementById('pie-legend');
+    const centerValue = document.getElementById('pie-center-value');
+    if (!svg || !legend) return;
+
+    centerValue.textContent = barData.length;
+
+    const cx = 100, cy = 100, r = 85;
+    const gap = 0.008; // gap between slices in radians
+    let svgHTML = '';
+    let legendHTML = '';
+    let cumAngle = -Math.PI / 2; // start at top
+
+    // Sort by allocation descending for better visual
+    const sorted = [...barData].sort((a, b) => b.alloc - a.alloc);
+
+    sorted.forEach((d, i) => {
+      const fund = FUND_DATA[d.key];
+      const color = fund.color;
+      const sliceAngle = d.alloc * Math.PI * 2;
+
+      // Skip tiny slices
+      if (sliceAngle < 0.01) return;
+
+      const startAngle = cumAngle + gap / 2;
+      const endAngle = cumAngle + sliceAngle - gap / 2;
+
+      const x1 = cx + r * Math.cos(startAngle);
+      const y1 = cy + r * Math.sin(startAngle);
+      const x2 = cx + r * Math.cos(endAngle);
+      const y2 = cy + r * Math.sin(endAngle);
+
+      const largeArc = sliceAngle > Math.PI ? 1 : 0;
+
+      const pathData = [
+        'M', cx, cy,
+        'L', x1.toFixed(2), y1.toFixed(2),
+        'A', r, r, 0, largeArc, 1, x2.toFixed(2), y2.toFixed(2),
+        'Z'
+      ].join(' ');
+
+      svgHTML += '<path d="' + pathData + '" fill="' + color + '" class="pie-slice" data-idx="' + i + '" style="--delay: ' + (i * 0.05) + 's" />';
+
+      cumAngle += sliceAngle;
+
+      legendHTML += '<div class="pie-legend-item" data-idx="' + i + '">';
+      legendHTML += '<span class="pie-legend-dot" style="background: ' + color + '"></span>';
+      legendHTML += '<span class="pie-legend-name">' + d.name + '</span>';
+      legendHTML += '<span class="pie-legend-pct">' + d.allocPct + '%</span>';
+      legendHTML += '<span class="pie-legend-amount">' + formatCurrency(d.fundCapital) + '</span>';
+      legendHTML += '</div>';
+    });
+
+    svg.innerHTML = svgHTML;
+    legend.innerHTML = legendHTML;
+
+    // Animate slices in
+    requestAnimationFrame(() => {
+      svg.querySelectorAll('.pie-slice').forEach(slice => {
+        slice.classList.add('pie-slice--visible');
+      });
+    });
+
+    // Hover interactivity
+    svg.querySelectorAll('.pie-slice').forEach(slice => {
+      slice.addEventListener('mouseenter', () => {
+        const idx = slice.dataset.idx;
+        svg.querySelectorAll('.pie-slice').forEach(s => {
+          s.style.opacity = s.dataset.idx === idx ? '1' : '0.35';
+        });
+        legend.querySelectorAll('.pie-legend-item').forEach(item => {
+          item.style.opacity = item.dataset.idx === idx ? '1' : '0.35';
+        });
+      });
+      slice.addEventListener('mouseleave', () => {
+        svg.querySelectorAll('.pie-slice').forEach(s => { s.style.opacity = ''; });
+        legend.querySelectorAll('.pie-legend-item').forEach(item => { item.style.opacity = ''; });
+      });
+    });
+
+    legend.querySelectorAll('.pie-legend-item').forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        const idx = item.dataset.idx;
+        svg.querySelectorAll('.pie-slice').forEach(s => {
+          s.style.opacity = s.dataset.idx === idx ? '1' : '0.35';
+        });
+        legend.querySelectorAll('.pie-legend-item').forEach(li => {
+          li.style.opacity = li.dataset.idx === idx ? '1' : '0.35';
+        });
+      });
+      item.addEventListener('mouseleave', () => {
+        svg.querySelectorAll('.pie-slice').forEach(s => { s.style.opacity = ''; });
+        legend.querySelectorAll('.pie-legend-item').forEach(li => { li.style.opacity = ''; });
+      });
+    });
   }
 
   // Render ESG panel below bars
