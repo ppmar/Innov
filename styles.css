@@ -1041,93 +1041,70 @@ ul, ol {
   z-index: 0;
 }
 
-/* ===== SPOTLIGHT CARD (pointer-tracking border glow) ===== */
+/* ===== GLOWING EFFECT (conic-gradient border, angle tracks pointer) ===== */
 
 .spotlight-card {
-  --glow-x: 0px;
-  --glow-y: 0px;
-  --glow-opacity: 0;
+  --glow-start: 0;
+  --glow-active: 0;
+  --glow-spread: 40;
+  --glow-border-width: 3px;
+  --glow-gradient:
+    radial-gradient(circle, #dd7bbb 10%, #dd7bbb00 20%),
+    radial-gradient(circle at 40% 40%, #d79f1e 5%, #d79f1e00 15%),
+    radial-gradient(circle at 60% 60%, #5a922c 10%, #5a922c00 20%),
+    radial-gradient(circle at 40% 60%, #4c7894 10%, #4c789400 20%),
+    repeating-conic-gradient(
+      from 236.84deg at 50% 50%,
+      #dd7bbb 0%,
+      #d79f1e 5%,
+      #5a922c 10%,
+      #4c7894 15%,
+      #dd7bbb 20%
+    );
   position: relative;
 }
 
-/* Colored border glow — bright, masked to border ring */
+/* The glow element — absolutely positioned, holds the rotating gradient */
 .spotlight-card > .spot-glow {
-  position: absolute;
-  inset: -3px;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 1;
-  opacity: var(--glow-opacity);
-  transition: opacity 0.4s ease;
-  --glow-color: rgba(120, 180, 255, 0.9);
-  background: radial-gradient(
-    200px circle at var(--glow-x) var(--glow-y),
-    var(--glow-color),
-    transparent 100%
-  );
-  filter: brightness(2);
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  padding: 3px;
-}
-
-/* White center highlight — tighter, border-only */
-.spotlight-card > .spot-glow::before {
-  content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: radial-gradient(
-    120px circle at var(--glow-x) var(--glow-y),
-    rgba(255, 255, 255, 0.8),
-    transparent 100%
-  );
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  padding: 3px;
-}
-
-/* Outer soft halo — bleeds outside the card */
-.spotlight-card > .spot-halo {
-  position: absolute;
-  inset: -8px;
-  border-radius: inherit;
   pointer-events: none;
-  z-index: 0;
-  opacity: var(--glow-opacity);
-  transition: opacity 0.4s ease;
-  background: radial-gradient(
-    200px circle at calc(var(--glow-x) + 8px) calc(var(--glow-y) + 8px),
-    var(--glow-color, rgba(120, 180, 255, 0.25)),
-    transparent 100%
-  );
-  filter: blur(16px);
+  z-index: 1;
 }
 
-/* Per-section glow colors */
-#outil .spotlight-card > .spot-glow      { --glow-color: rgba(90, 146, 44, 0.9); }
-#fonds .spotlight-card > .spot-glow      { --glow-color: rgba(215, 159, 30, 0.9); }
-#simulateur .spotlight-card > .spot-glow { --glow-color: rgba(76, 120, 148, 0.9); }
-#methodologie .spotlight-card > .spot-glow { --glow-color: rgba(221, 123, 187, 0.85); }
-#equipe .spotlight-card > .spot-glow     { --glow-color: rgba(120, 160, 255, 0.9); }
-
-#outil .spotlight-card > .spot-halo      { --glow-color: rgba(90, 146, 44, 0.2); }
-#fonds .spotlight-card > .spot-halo      { --glow-color: rgba(215, 159, 30, 0.2); }
-#simulateur .spotlight-card > .spot-halo { --glow-color: rgba(76, 120, 148, 0.2); }
-#methodologie .spotlight-card > .spot-halo { --glow-color: rgba(221, 123, 187, 0.18); }
-#equipe .spotlight-card > .spot-halo     { --glow-color: rgba(120, 160, 255, 0.2); }
+/* The actual border glow — conic mask reveals only near the angle */
+.spotlight-card > .spot-glow::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--glow-border-width));
+  border: var(--glow-border-width) solid transparent;
+  border-radius: inherit;
+  background: var(--glow-gradient);
+  background-attachment: fixed;
+  opacity: var(--glow-active);
+  transition: opacity 0.3s ease;
+  mask-clip: padding-box, border-box;
+  -webkit-mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(#0000, #0000),
+    conic-gradient(
+      from calc((var(--glow-start) - var(--glow-spread)) * 1deg),
+      #00000000 0deg,
+      #fff,
+      #00000000 calc(var(--glow-spread) * 2deg)
+    );
+  -webkit-mask-image:
+    linear-gradient(#0000, #0000),
+    conic-gradient(
+      from calc((var(--glow-start) - var(--glow-spread)) * 1deg),
+      #00000000 0deg,
+      #fff,
+      #00000000 calc(var(--glow-spread) * 2deg)
+    );
+}
 
 /* ===== LIQUID GLASS (shared across all cards) ===== */
 
@@ -3175,8 +3152,7 @@ ul, ol {
     gap: 16px;
   }
 
-  .spotlight-card > .spot-glow,
-  .spotlight-card > .spot-halo {
+  .spotlight-card > .spot-glow {
     display: none;
   }
 

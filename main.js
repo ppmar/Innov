@@ -902,47 +902,73 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  /* ---- Spotlight Card Glow (pointer-tracking border) ---- */
-  (function initSpotlightCards() {
-    const cards = document.querySelectorAll('.spotlight-card');
+  /* ---- Glowing Effect (conic-gradient angle tracks pointer) ---- */
+  (function initGlowingEffect() {
+    var cards = document.querySelectorAll('.spotlight-card');
     if (!cards.length) return;
 
-    // Inject spot-glow, spot-halo, glass-shimmer children if missing
-    cards.forEach(card => {
-      if (!card.querySelector('.spot-halo')) {
-        const halo = document.createElement('div');
-        halo.className = 'spot-halo';
-        halo.setAttribute('aria-hidden', 'true');
-        card.appendChild(halo);
-      }
+    var proximity = 64;
+    var inactiveZone = 0.01;
+
+    // Inject spot-glow + glass-shimmer children if missing
+    cards.forEach(function(card) {
       if (!card.querySelector('.spot-glow')) {
-        const glow = document.createElement('div');
+        var glow = document.createElement('div');
         glow.className = 'spot-glow';
         glow.setAttribute('aria-hidden', 'true');
         card.appendChild(glow);
       }
       if (card.classList.contains('liquid-glass') && !card.querySelector('.glass-shimmer')) {
-        const shimmer = document.createElement('div');
+        var shimmer = document.createElement('div');
         shimmer.className = 'glass-shimmer';
         shimmer.setAttribute('aria-hidden', 'true');
         card.appendChild(shimmer);
       }
     });
 
-    let raf = 0;
-    document.addEventListener('pointermove', (e) => {
+    var raf = 0;
+    document.body.addEventListener('pointermove', function(e) {
       if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        cards.forEach(card => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const isNear =
-            e.clientX > rect.left - 100 && e.clientX < rect.right + 100 &&
-            e.clientY > rect.top - 100 && e.clientY < rect.bottom + 100;
-          card.style.setProperty('--glow-x', x + 'px');
-          card.style.setProperty('--glow-y', y + 'px');
-          card.style.setProperty('--glow-opacity', isNear ? '1' : '0');
+      raf = requestAnimationFrame(function() {
+        var mx = e.clientX;
+        var my = e.clientY;
+
+        cards.forEach(function(card) {
+          var rect = card.getBoundingClientRect();
+          var cx = rect.left + rect.width * 0.5;
+          var cy = rect.top + rect.height * 0.5;
+
+          // Inactive zone check
+          var dist = Math.hypot(mx - cx, my - cy);
+          var inactiveR = 0.5 * Math.min(rect.width, rect.height) * inactiveZone;
+          if (dist < inactiveR) {
+            card.style.setProperty('--glow-active', '0');
+            return;
+          }
+
+          // Proximity check
+          var isActive =
+            mx > rect.left - proximity &&
+            mx < rect.right + proximity &&
+            my > rect.top - proximity &&
+            my < rect.bottom + proximity;
+
+          card.style.setProperty('--glow-active', isActive ? '1' : '0');
+          if (!isActive) return;
+
+          // Compute angle from center to pointer
+          var angle = (180 * Math.atan2(my - cy, mx - cx)) / Math.PI + 90;
+          card.style.setProperty('--glow-start', String(angle));
+        });
+      });
+    }, { passive: true });
+
+    // Also update on scroll (pointer may not move but cards shift)
+    window.addEventListener('scroll', function() {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(function() {
+        cards.forEach(function(card) {
+          // Re-evaluate with last known pointer — rely on CSS current values
         });
       });
     }, { passive: true });
