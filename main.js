@@ -902,45 +902,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  /* ---- Spotlight Card Glow (data-glow style) ---- */
+  /* ---- Spotlight Card Glow (pointer-tracking border) ---- */
   (function initSpotlightCards() {
     const cards = document.querySelectorAll('.spotlight-card');
     if (!cards.length) return;
 
-    // Inject spot-glow child if missing (outer blur halo)
+    // Inject spot-glow child if missing
     cards.forEach(card => {
       if (!card.querySelector('.spot-glow')) {
         const glow = document.createElement('div');
         glow.className = 'spot-glow';
         glow.setAttribute('aria-hidden', 'true');
-        card.prepend(glow);
+        card.appendChild(glow);
       }
     });
 
-    // Sync pointer position to all cards (like React syncPointer)
+    let raf = 0;
     document.addEventListener('pointermove', (e) => {
-      const x = e.clientX;
-      const y = e.clientY;
-      const xp = (x / window.innerWidth).toFixed(2);
-
-      cards.forEach(card => {
-        card.style.setProperty('--glow-x', x.toFixed(2));
-        card.style.setProperty('--glow-y', y.toFixed(2));
-        card.style.setProperty('--glow-xp', xp);
-        card.style.setProperty('--glow-bg-opacity', '0.1');
-        card.style.setProperty('--glow-border-opacity', '1');
-        card.style.setProperty('--glow-light-opacity', '1');
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        cards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          // Check proximity (within 100px of card edges)
+          const isNear =
+            e.clientX > rect.left - 100 && e.clientX < rect.right + 100 &&
+            e.clientY > rect.top - 100 && e.clientY < rect.bottom + 100;
+          card.style.setProperty('--glow-x', x + 'px');
+          card.style.setProperty('--glow-y', y + 'px');
+          card.style.setProperty('--glow-opacity', isNear ? '1' : '0');
+        });
       });
     }, { passive: true });
-
-    // Hide glow when pointer leaves
-    document.body.addEventListener('pointerleave', () => {
-      cards.forEach(card => {
-        card.style.setProperty('--glow-bg-opacity', '0');
-        card.style.setProperty('--glow-border-opacity', '0');
-        card.style.setProperty('--glow-light-opacity', '0');
-      });
-    });
   })();
 
 
