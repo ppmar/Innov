@@ -879,6 +879,9 @@ ul, ol {
   overflow: visible;
   background: var(--bg-primary);
   will-change: width, height, border-radius;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Soft feathered edge — fades into background */
@@ -898,7 +901,7 @@ ul, ol {
   position: relative;
   z-index: 1;
   max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
   padding: 60px 40px;
   text-align: center;
   opacity: 0;
