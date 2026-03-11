@@ -1059,13 +1059,11 @@ ul, ol {
   z-index: 1;
   opacity: var(--glow-opacity);
   transition: opacity 0.4s ease;
+  --glow-color: rgba(120, 180, 255, 0.4);
   background: radial-gradient(
     300px circle at var(--glow-x) var(--glow-y),
-    rgba(221, 123, 187, 0.35),
-    rgba(215, 159, 30, 0.25) 25%,
-    rgba(90, 146, 44, 0.2) 50%,
-    rgba(76, 120, 148, 0.15) 70%,
-    transparent 100%
+    var(--glow-color),
+    transparent 70%
   );
   mask:
     linear-gradient(#000 0 0) content-box,
@@ -1077,6 +1075,13 @@ ul, ol {
   -webkit-mask-composite: xor;
   padding: 2px;
 }
+
+/* Per-section glow colors */
+#outil .spotlight-card > .spot-glow      { --glow-color: rgba(90, 146, 44, 0.4); }
+#fonds .spotlight-card > .spot-glow      { --glow-color: rgba(215, 159, 30, 0.4); }
+#simulateur .spotlight-card > .spot-glow { --glow-color: rgba(76, 120, 148, 0.4); }
+#methodologie .spotlight-card > .spot-glow { --glow-color: rgba(221, 123, 187, 0.35); }
+#equipe .spotlight-card > .spot-glow     { --glow-color: rgba(120, 160, 255, 0.4); }
 
 /* ===== LIQUID GLASS (shared across all cards) ===== */
 
