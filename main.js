@@ -867,7 +867,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       next.classList.remove('hero-rotating-word--exit');
       next.style.transition = 'none';
-      next.style.transform = 'translateY(80px)';
+      next.style.transform = 'translateX(-50%) translateY(80px)';
       next.style.opacity = '0';
 
       requestAnimationFrame(() => {
