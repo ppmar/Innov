@@ -931,7 +931,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initSparkles() {
       resizeSparkles();
       particles = [];
-      const density = Math.min(120, Math.floor(sparklesCanvas.width * sparklesCanvas.height / 3000));
+      const density = Math.min(200, Math.floor(sparklesCanvas.width * sparklesCanvas.height / 2500));
       for (let i = 0; i < density; i++) {
         particles.push(createParticle());
       }

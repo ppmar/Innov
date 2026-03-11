@@ -851,12 +851,10 @@ ul, ol {
 
 /* ===== PROBLEM SECTION ===== */
 
-/* Sparkles title */
-.sparkles-title-wrap {
+/* Sparkles section */
+.sparkles-section {
   position: relative;
-  display: inline-block;
-  width: 100%;
-  padding: 24px 0;
+  overflow: hidden;
 }
 
 .sparkles-canvas {
@@ -868,39 +866,18 @@ ul, ol {
   z-index: 0;
 }
 
-.sparkles-title {
-  position: relative;
-  z-index: 1;
-}
-
-.sparkles-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  filter: blur(6px);
-  opacity: 0.5;
-  pointer-events: none;
-  z-index: 0;
-}
-
 /* Liquid glass blockquote */
 .problematique.liquid-glass-block {
   position: relative;
   overflow: hidden;
-  border-left: 2px solid var(--gold);
   padding: 32px 36px;
-  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  border-radius: var(--radius-xl);
   font-family: var(--font-display);
   font-size: 1.15rem;
   font-style: italic;
   color: var(--text-primary);
   line-height: 1.85;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-left: 2px solid var(--gold);
   background:
     linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.05) 100%);
   backdrop-filter: blur(16px) saturate(1.4);
