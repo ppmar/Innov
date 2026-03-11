@@ -918,13 +918,22 @@ document.addEventListener('DOMContentLoaded', () => {
     function resizeSparkles() {
       const w = expandViewport.offsetWidth;
       const h = expandViewport.offsetHeight;
-      if (w !== lastCanvasW || h !== lastCanvasH) {
+      if (w > 0 && h > 0 && (w !== lastCanvasW || h !== lastCanvasH)) {
+        // Scale existing particles proportionally to new dimensions
+        if (lastCanvasW > 0 && lastCanvasH > 0) {
+          const scaleX = w / lastCanvasW;
+          const scaleY = h / lastCanvasH;
+          particles.forEach(p => {
+            p.x *= scaleX;
+            p.y *= scaleY;
+          });
+        }
         sparklesCanvas.width = w;
         sparklesCanvas.height = h;
         lastCanvasW = w;
         lastCanvasH = h;
         // Add particles for new area
-        const targetDensity = Math.min(250, Math.floor(w * h / 2000));
+        const targetDensity = Math.min(300, Math.floor(w * h / 1800));
         while (particles.length < targetDensity) {
           particles.push(createParticle(w, h));
         }
@@ -985,6 +994,8 @@ document.addEventListener('DOMContentLoaded', () => {
       expandViewport.style.width = w + 'px';
       expandViewport.style.height = h + 'px';
       expandViewport.style.borderRadius = radius + 'px';
+      // Fade soft edge as it approaches fullscreen
+      expandViewport.style.setProperty('--expand-edge-opacity', Math.max(0, 1 - progress * 1.5));
 
       // Show content after 40% expansion
       if (progress > 0.4) {
