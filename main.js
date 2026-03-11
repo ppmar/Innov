@@ -902,6 +902,59 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
+  /* ---- Glowing Effect (mouse-tracking border glow) ---- */
+  const glowWraps = document.querySelectorAll('.feature-glow-wrap');
+  if (glowWraps.length) {
+    glowWraps.forEach(wrap => {
+      const border = wrap.querySelector('.glow-border');
+      if (!border) return;
+
+      let rafId = 0;
+      const proximity = 64;
+      const inactiveZone = 0.01;
+
+      function handlePointerMove(e) {
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          const rect = border.getBoundingClientRect();
+          const cx = rect.left + rect.width * 0.5;
+          const cy = rect.top + rect.height * 0.5;
+          const mx = e.clientX;
+          const my = e.clientY;
+
+          // Inactive zone
+          const dist = Math.hypot(mx - cx, my - cy);
+          const inactiveR = 0.5 * Math.min(rect.width, rect.height) * inactiveZone;
+          if (dist < inactiveR) {
+            border.style.setProperty('--glow-active', '0');
+            border.classList.remove('glow-active');
+            return;
+          }
+
+          // Proximity check
+          const isNear = mx > rect.left - proximity
+            && mx < rect.right + proximity
+            && my > rect.top - proximity
+            && my < rect.bottom + proximity;
+
+          if (isNear) {
+            border.classList.add('glow-active');
+            border.style.setProperty('--glow-active', '1');
+            // Angle from center to mouse
+            const angle = (180 * Math.atan2(my - cy, mx - cx)) / Math.PI + 90;
+            border.style.setProperty('--glow-start', String(angle));
+          } else {
+            border.style.setProperty('--glow-active', '0');
+            border.classList.remove('glow-active');
+          }
+        });
+      }
+
+      document.body.addEventListener('pointermove', handlePointerMove, { passive: true });
+    });
+  }
+
+
   /* ---- Scroll Expansion + Sparkles ---- */
   const expandScroll = document.getElementById('expand-scroll');
   const expandViewport = document.getElementById('expand-viewport');

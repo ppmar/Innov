@@ -1037,6 +1037,107 @@ ul, ol {
 
 /* ===== FEATURES ===== */
 
+/* ===== SPOTLIGHT ===== */
+
+.spotlight-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight-svg {
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  height: 169%;
+  width: 138%;
+  top: -40px;
+  left: 0;
+  opacity: 0;
+  animation: spotlight-fade 2s ease forwards 0.3s;
+}
+
+@media (min-width: 1024px) {
+  .spotlight-svg {
+    width: 84%;
+    left: 240px;
+    top: -80px;
+  }
+}
+
+@keyframes spotlight-fade {
+  from { opacity: 0; transform: translateY(-40px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ===== GLOWING EFFECT (mouse-tracking border glow) ===== */
+
+.feature-glow-wrap {
+  position: relative;
+  border-radius: calc(var(--radius-xl) + 3px);
+  padding: 3px;
+}
+
+.glow-border {
+  --glow-start: 0;
+  --glow-active: 0;
+  --glow-spread: 40;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* The actual conic gradient glow — clipped to border area */
+.glow-border::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 3px solid transparent;
+  background:
+    radial-gradient(circle, #dd7bbb 10%, transparent 20%),
+    radial-gradient(circle at 40% 40%, #d79f1e 5%, transparent 15%),
+    radial-gradient(circle at 60% 60%, #5a922c 10%, transparent 20%),
+    radial-gradient(circle at 40% 60%, #4c7894 10%, transparent 20%),
+    repeating-conic-gradient(
+      from calc((var(--glow-start) - var(--glow-spread)) * 1deg) at 50% 50%,
+      #dd7bbb 0%,
+      #d79f1e 5%,
+      #5a922c 10%,
+      #4c7894 15%,
+      #dd7bbb 20%
+    );
+  background-attachment: fixed;
+  opacity: var(--glow-active);
+  transition: opacity 0.3s ease;
+  mask-clip: padding-box, border-box;
+  -webkit-mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(#0000, #0000),
+    conic-gradient(
+      from calc((var(--glow-start) - var(--glow-spread)) * 1deg),
+      transparent 0deg,
+      #fff,
+      transparent calc(var(--glow-spread) * 2deg)
+    );
+  -webkit-mask-image: linear-gradient(#0000, #0000),
+    conic-gradient(
+      from calc((var(--glow-start) - var(--glow-spread)) * 1deg),
+      transparent 0deg,
+      #fff,
+      transparent calc(var(--glow-spread) * 2deg)
+    );
+}
+
+.glow-border.glow-active {
+  opacity: 1;
+}
+
+/* ===== FEATURES GRID ===== */
+
 .features {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1071,25 +1172,7 @@ ul, ol {
   pointer-events: none;
 }
 
-/* Hover glow */
-.feature::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 50% 50%, rgba(0, 200, 83, 0.04) 0%, transparent 50%);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.feature:hover::after {
-  opacity: 1;
-}
-
-.feature:hover {
+.feature-glow-wrap:hover .feature {
   transform: translateY(-6px);
   border-color: var(--glass-border-hover);
   box-shadow: var(--shadow-card-hover);
@@ -3120,6 +3203,18 @@ ul, ol {
   .features {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .spotlight-svg {
+    display: none;
+  }
+
+  .glow-border {
+    display: none;
+  }
+
+  .feature-glow-wrap {
+    padding: 0;
   }
 
   /* Carousel mobile */
