@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---- Parallax on scroll ---- */
   const parallaxEls = document.querySelectorAll('[data-parallax]');
   const heroBg = document.querySelector('.hero-bg');
+  const heroPhoto = document.getElementById('hero-photo');
   const sections = document.querySelectorAll('.parallax-section');
 
   let ticking = false;
@@ -42,6 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Hero background parallax — moves slower than scroll for depth
         if (heroBg) {
           heroBg.style.transform = `translateY(${scrollY * 0.3}px)`;
+        }
+
+        // Hero photo — parallax + fade-out as user scrolls
+        if (heroPhoto) {
+          const heroH = heroPhoto.parentElement.offsetHeight || 800;
+          const progress = Math.min(scrollY / heroH, 1); // 0 → 1 over hero height
+          const photoY = scrollY * 0.15; // slower than heroBg for layered depth
+          const opacity = 1 - progress * 1.3; // fade out faster than scroll
+          const scale = 1.1 - progress * 0.05; // subtle zoom-out
+          heroPhoto.style.transform = `translateY(${photoY}px) scale(${scale})`;
+          heroPhoto.style.opacity = Math.max(0, opacity);
         }
 
         // Parallax cards: front (0.18) moves faster, back (0.06) slower = 3D feel

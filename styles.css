@@ -182,6 +182,50 @@ body {
   transition: none;
 }
 
+/* Hero photo background */
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  will-change: transform, opacity;
+  transition: none;
+}
+
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+  filter: saturate(0.7) brightness(0.55);
+  transform: scale(1.1);
+  transition: none;
+  will-change: transform;
+}
+
+/* Glass overlay on top of photo */
+.hero-photo-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(180deg,
+      rgba(6, 9, 11, 0.3) 0%,
+      rgba(6, 9, 11, 0.15) 30%,
+      rgba(6, 9, 11, 0.4) 60%,
+      rgba(6, 9, 11, 0.92) 85%,
+      rgba(6, 9, 11, 1) 100%
+    ),
+    linear-gradient(90deg,
+      rgba(6, 9, 11, 0.6) 0%,
+      rgba(6, 9, 11, 0.1) 40%,
+      rgba(6, 9, 11, 0.3) 100%
+    );
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+}
+
 .hero-grain {
   position: absolute;
   inset: 0;
