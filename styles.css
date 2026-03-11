@@ -185,42 +185,34 @@ body {
   object-fit: cover;
   object-position: center 30%;
   display: block;
-  filter: saturate(0.7) brightness(0.55);
+  filter: saturate(0.8) brightness(0.7);
   transform: scale(1.1);
   transition: none;
   will-change: transform;
 }
 
-/* Glass overlay on top of photo */
+/* Glass overlay on top of photo — gentle vignette, fade to bg at bottom only */
 .hero-photo-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
   background:
     linear-gradient(180deg,
-      rgba(6, 9, 11, 0.25) 0%,
-      rgba(6, 9, 11, 0.1) 25%,
-      rgba(6, 9, 11, 0.35) 55%,
-      rgba(6, 9, 11, 0.85) 80%,
-      rgba(6, 9, 11, 1) 100%
-    ),
-    linear-gradient(90deg,
-      rgba(6, 9, 11, 0.5) 0%,
-      rgba(6, 9, 11, 0.05) 40%,
-      rgba(6, 9, 11, 0.25) 100%
+      rgba(6, 9, 11, 0.15) 0%,
+      transparent 20%,
+      transparent 50%,
+      rgba(6, 9, 11, 0.5) 75%,
+      rgba(6, 9, 11, 0.95) 100%
     );
-  backdrop-filter: blur(1.5px);
-  -webkit-backdrop-filter: blur(1.5px);
 }
 
-/* Mesh gradient glows — layer 2, on top of photo+overlay */
+/* Mesh gradient glows — layer 2, subtle color accents only */
 .hero-bg {
   position: absolute;
   inset: 0;
   background:
     radial-gradient(ellipse 80% 60% at 20% 40%, rgba(52, 211, 153, 0.06) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(212, 168, 83, 0.04) 0%, transparent 70%),
-    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(6, 9, 11, 0.6) 0%, transparent 60%);
+    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(212, 168, 83, 0.04) 0%, transparent 70%);
   z-index: 2;
   will-change: transform;
   transition: none;
