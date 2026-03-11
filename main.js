@@ -907,13 +907,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.spotlight-card');
     if (!cards.length) return;
 
-    // Inject spot-glow child if missing
+    // Inject spot-glow + glass-shimmer children if missing
     cards.forEach(card => {
       if (!card.querySelector('.spot-glow')) {
         const glow = document.createElement('div');
         glow.className = 'spot-glow';
         glow.setAttribute('aria-hidden', 'true');
         card.appendChild(glow);
+      }
+      if (card.classList.contains('liquid-glass') && !card.querySelector('.glass-shimmer')) {
+        const shimmer = document.createElement('div');
+        shimmer.className = 'glass-shimmer';
+        shimmer.setAttribute('aria-hidden', 'true');
+        card.appendChild(shimmer);
       }
     });
 
@@ -925,7 +931,6 @@ document.addEventListener('DOMContentLoaded', () => {
           const rect = card.getBoundingClientRect();
           const x = e.clientX - rect.left;
           const y = e.clientY - rect.top;
-          // Check proximity (within 100px of card edges)
           const isNear =
             e.clientX > rect.left - 100 && e.clientX < rect.right + 100 &&
             e.clientY > rect.top - 100 && e.clientY < rect.bottom + 100;

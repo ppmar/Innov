@@ -1050,7 +1050,7 @@ ul, ol {
   position: relative;
 }
 
-/* Single pseudo-element: radial glow on the border, masked to border only */
+/* Radial glow on the border — masked to border ring only */
 .spotlight-card > .spot-glow {
   position: absolute;
   inset: -2px;
@@ -1058,12 +1058,14 @@ ul, ol {
   pointer-events: none;
   z-index: 1;
   opacity: var(--glow-opacity);
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
   background: radial-gradient(
     300px circle at var(--glow-x) var(--glow-y),
-    rgba(120, 180, 255, 0.7),
-    rgba(255, 255, 255, 0.15) 40%,
-    transparent 70%
+    rgba(221, 123, 187, 0.35),
+    rgba(215, 159, 30, 0.25) 25%,
+    rgba(90, 146, 44, 0.2) 50%,
+    rgba(76, 120, 148, 0.15) 70%,
+    transparent 100%
   );
   mask:
     linear-gradient(#000 0 0) content-box,
@@ -1076,6 +1078,43 @@ ul, ol {
   padding: 2px;
 }
 
+/* ===== LIQUID GLASS (shared across all cards) ===== */
+
+.liquid-glass {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.05) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  box-shadow:
+    inset 1px 1px 1px -0.5px rgba(255,255,255,0.08),
+    inset -1px -1px 1px -0.5px rgba(255,255,255,0.06),
+    inset 0 0 12px rgba(255,255,255,0.03),
+    0 2px 8px rgba(0,0,0,0.1);
+  transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.liquid-glass:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow:
+    inset 1px 1px 2px -0.5px rgba(255,255,255,0.10),
+    inset -1px -1px 2px -0.5px rgba(255,255,255,0.08),
+    inset 0 0 16px rgba(255,255,255,0.05),
+    0 4px 16px rgba(0,0,0,0.15);
+}
+
+/* Top highlight shimmer */
+.liquid-glass > .glass-shimmer {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* ===== FEATURES GRID ===== */
 
 .features {
@@ -1085,16 +1124,8 @@ ul, ol {
 }
 
 .feature {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
   border-radius: var(--radius-xl);
   padding: 36px 28px;
-  transition: transform var(--transition-normal),
-              border-color var(--transition-normal),
-              box-shadow var(--transition-normal),
-              background var(--transition-normal);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   position: relative;
   overflow: hidden;
   cursor: default;
@@ -1242,20 +1273,11 @@ ul, ol {
 
 .fund-card {
   flex: 0 0 320px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
   border-radius: var(--radius-xl);
   padding: 28px;
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  transition: all var(--transition-normal);
   cursor: default;
   position: relative;
   overflow: hidden;
-}
-
-.fund-card:hover {
-  border-color: var(--glass-border-hover);
 }
 
 /* Fund card filtered-out state */
@@ -2717,27 +2739,17 @@ ul, ol {
 
 .team-member {
   position: relative;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
   border-radius: var(--radius-xl);
   padding: 32px;
   text-align: center;
   text-decoration: none;
   color: inherit;
-  backdrop-filter: blur(var(--glass-blur));
-  transition: transform var(--transition-normal),
-              border-color var(--transition-normal),
-              box-shadow var(--transition-normal);
   cursor: default;
   display: block;
 }
 
 .team-member--link {
   cursor: pointer;
-}
-
-.team-member:hover {
-  border-color: var(--glass-border-hover);
 }
 
 .team-linkedin {
