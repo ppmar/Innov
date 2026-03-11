@@ -955,28 +955,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  /* ---- Section Sparkles (La plateforme) ---- */
-  (function initSectionSparkles() {
-    const canvas = document.getElementById('outil-sparkles');
+  /* ---- Global Sparkles (full-page background) ---- */
+  (function initGlobalSparkles() {
+    const canvas = document.getElementById('global-sparkles');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     let particles = [];
     let animId = null;
 
     function resize() {
-      const section = canvas.parentElement;
-      canvas.width = section.offsetWidth;
-      canvas.height = section.offsetHeight;
-      const target = Math.min(200, Math.floor(canvas.width * canvas.height / 3000));
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const target = Math.min(250, Math.floor(canvas.width * canvas.height / 4000));
       while (particles.length < target) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 2 + 0.5,
-          speedX: (Math.random() - 0.5) * 0.3,
-          speedY: (Math.random() - 0.5) * 0.3,
+          size: Math.random() * 2 + 0.4,
+          speedX: (Math.random() - 0.5) * 0.25,
+          speedY: (Math.random() - 0.5) * 0.25,
           opacity: Math.random(),
-          fadeSpeed: 0.004 + Math.random() * 0.012,
+          fadeSpeed: 0.003 + Math.random() * 0.01,
           fadeDir: 1
         });
       }
@@ -995,24 +994,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,255,255,' + p.opacity * 0.6 + ')';
+        ctx.fillStyle = 'rgba(255,255,255,' + p.opacity * 0.5 + ')';
         ctx.fill();
       });
       animId = requestAnimationFrame(draw);
     }
 
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          resize();
-          if (!animId) draw();
-        } else {
-          if (animId) { cancelAnimationFrame(animId); animId = null; }
-        }
-      });
-    }, { threshold: 0.05 });
-    obs.observe(canvas.parentElement);
+    resize();
+    draw();
     window.addEventListener('resize', resize);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (animId) { cancelAnimationFrame(animId); animId = null; }
+      } else {
+        if (!animId) draw();
+      }
+    });
   })();
 
 

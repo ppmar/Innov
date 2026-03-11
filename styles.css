@@ -800,18 +800,11 @@ ul, ol {
 }
 
 .section--alt {
-  background: var(--bg-secondary);
+  background: transparent;
 }
 
 .section--alt::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 1px;
-  background: var(--gradient-divider);
+  display: none;
 }
 
 .section-container {
@@ -1037,25 +1030,15 @@ ul, ol {
 
 /* ===== FEATURES ===== */
 
-/* ===== SECTION SPARKLES (background particles) ===== */
+/* ===== GLOBAL SPARKLES (full-page background particles) ===== */
 
-.section-sparkles {
-  position: absolute;
+.global-sparkles {
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
   z-index: 0;
-}
-
-#outil {
-  position: relative;
-  overflow: hidden;
-}
-
-#outil .section-container {
-  position: relative;
-  z-index: 1;
 }
 
 /* ===== GLOWING EFFECT (mouse-tracking border glow) ===== */
