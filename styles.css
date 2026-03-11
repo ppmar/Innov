@@ -1050,20 +1050,43 @@ ul, ol {
   position: relative;
 }
 
-/* Radial glow on the border — masked to border ring only */
+/* Colored border glow — bright, masked to border ring */
 .spotlight-card > .spot-glow {
   position: absolute;
-  inset: -2px;
+  inset: -3px;
   border-radius: inherit;
   pointer-events: none;
   z-index: 1;
   opacity: var(--glow-opacity);
   transition: opacity 0.4s ease;
-  --glow-color: rgba(120, 180, 255, 0.4);
+  --glow-color: rgba(120, 180, 255, 0.9);
   background: radial-gradient(
-    300px circle at var(--glow-x) var(--glow-y),
+    200px circle at var(--glow-x) var(--glow-y),
     var(--glow-color),
-    transparent 70%
+    transparent 100%
+  );
+  filter: brightness(2);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  padding: 3px;
+}
+
+/* White center highlight — tighter, border-only */
+.spotlight-card > .spot-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    120px circle at var(--glow-x) var(--glow-y),
+    rgba(255, 255, 255, 0.8),
+    transparent 100%
   );
   mask:
     linear-gradient(#000 0 0) content-box,
@@ -1073,15 +1096,38 @@ ul, ol {
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
-  padding: 2px;
+  padding: 3px;
+}
+
+/* Outer soft halo — bleeds outside the card */
+.spotlight-card > .spot-halo {
+  position: absolute;
+  inset: -8px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--glow-opacity);
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    200px circle at calc(var(--glow-x) + 8px) calc(var(--glow-y) + 8px),
+    var(--glow-color, rgba(120, 180, 255, 0.25)),
+    transparent 100%
+  );
+  filter: blur(16px);
 }
 
 /* Per-section glow colors */
-#outil .spotlight-card > .spot-glow      { --glow-color: rgba(90, 146, 44, 0.4); }
-#fonds .spotlight-card > .spot-glow      { --glow-color: rgba(215, 159, 30, 0.4); }
-#simulateur .spotlight-card > .spot-glow { --glow-color: rgba(76, 120, 148, 0.4); }
-#methodologie .spotlight-card > .spot-glow { --glow-color: rgba(221, 123, 187, 0.35); }
-#equipe .spotlight-card > .spot-glow     { --glow-color: rgba(120, 160, 255, 0.4); }
+#outil .spotlight-card > .spot-glow      { --glow-color: rgba(90, 146, 44, 0.9); }
+#fonds .spotlight-card > .spot-glow      { --glow-color: rgba(215, 159, 30, 0.9); }
+#simulateur .spotlight-card > .spot-glow { --glow-color: rgba(76, 120, 148, 0.9); }
+#methodologie .spotlight-card > .spot-glow { --glow-color: rgba(221, 123, 187, 0.85); }
+#equipe .spotlight-card > .spot-glow     { --glow-color: rgba(120, 160, 255, 0.9); }
+
+#outil .spotlight-card > .spot-halo      { --glow-color: rgba(90, 146, 44, 0.2); }
+#fonds .spotlight-card > .spot-halo      { --glow-color: rgba(215, 159, 30, 0.2); }
+#simulateur .spotlight-card > .spot-halo { --glow-color: rgba(76, 120, 148, 0.2); }
+#methodologie .spotlight-card > .spot-halo { --glow-color: rgba(221, 123, 187, 0.18); }
+#equipe .spotlight-card > .spot-halo     { --glow-color: rgba(120, 160, 255, 0.2); }
 
 /* ===== LIQUID GLASS (shared across all cards) ===== */
 
@@ -3129,9 +3175,8 @@ ul, ol {
     gap: 16px;
   }
 
-  .spotlight-card::before,
-  .spotlight-card::after,
-  .spotlight-card > .spot-glow {
+  .spotlight-card > .spot-glow,
+  .spotlight-card > .spot-halo {
     display: none;
   }
 

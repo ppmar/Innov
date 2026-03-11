@@ -907,8 +907,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.spotlight-card');
     if (!cards.length) return;
 
-    // Inject spot-glow + glass-shimmer children if missing
+    // Inject spot-glow, spot-halo, glass-shimmer children if missing
     cards.forEach(card => {
+      if (!card.querySelector('.spot-halo')) {
+        const halo = document.createElement('div');
+        halo.className = 'spot-halo';
+        halo.setAttribute('aria-hidden', 'true');
+        card.appendChild(halo);
+      }
       if (!card.querySelector('.spot-glow')) {
         const glow = document.createElement('div');
         glow.className = 'spot-glow';
