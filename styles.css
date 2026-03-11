@@ -169,24 +169,11 @@ body {
   overflow: hidden;
 }
 
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(52, 211, 153, 0.04) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(212, 168, 83, 0.03) 0%, transparent 70%),
-    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(6, 9, 11, 1) 0%, transparent 60%),
-    linear-gradient(170deg, #091410 0%, #060a0d 40%, #0a0e11 100%);
-  z-index: 0;
-  will-change: transform;
-  transition: none;
-}
-
-/* Hero photo background */
+/* Hero photo — layer 0, behind everything */
 .hero-photo {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 0;
   overflow: hidden;
   will-change: transform, opacity;
   transition: none;
@@ -208,22 +195,36 @@ body {
 .hero-photo-overlay {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
   background:
     linear-gradient(180deg,
-      rgba(6, 9, 11, 0.3) 0%,
-      rgba(6, 9, 11, 0.15) 30%,
-      rgba(6, 9, 11, 0.4) 60%,
-      rgba(6, 9, 11, 0.92) 85%,
+      rgba(6, 9, 11, 0.25) 0%,
+      rgba(6, 9, 11, 0.1) 25%,
+      rgba(6, 9, 11, 0.35) 55%,
+      rgba(6, 9, 11, 0.85) 80%,
       rgba(6, 9, 11, 1) 100%
     ),
     linear-gradient(90deg,
-      rgba(6, 9, 11, 0.6) 0%,
-      rgba(6, 9, 11, 0.1) 40%,
-      rgba(6, 9, 11, 0.3) 100%
+      rgba(6, 9, 11, 0.5) 0%,
+      rgba(6, 9, 11, 0.05) 40%,
+      rgba(6, 9, 11, 0.25) 100%
     );
-  backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+}
+
+/* Mesh gradient glows — layer 2, on top of photo+overlay */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(52, 211, 153, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(212, 168, 83, 0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(6, 9, 11, 0.6) 0%, transparent 60%);
+  z-index: 2;
+  will-change: transform;
+  transition: none;
+  pointer-events: none;
 }
 
 .hero-grain {
@@ -293,7 +294,7 @@ body {
 
 .hero-container {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   max-width: 1200px;
   margin: 0 auto;
   padding: 110px 40px 140px;
