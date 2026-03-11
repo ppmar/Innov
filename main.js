@@ -855,8 +855,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const rotatingWords = document.querySelectorAll('.hero-rotating-word');
   if (rotatingWords.length > 1) {
     let currentWord = 0;
+    let rotateTimer = null;
 
-    setInterval(() => {
+    function rotateWord() {
       const prev = rotatingWords[currentWord];
       prev.classList.remove('hero-rotating-word--active');
       prev.classList.add('hero-rotating-word--exit');
@@ -864,7 +865,6 @@ document.addEventListener('DOMContentLoaded', () => {
       currentWord = (currentWord + 1) % rotatingWords.length;
       const next = rotatingWords[currentWord];
 
-      // Reset position below before animating in
       next.classList.remove('hero-rotating-word--exit');
       next.style.transition = 'none';
       next.style.transform = 'translateY(80px)';
@@ -879,11 +879,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
 
-      // Clean exit class after transition
       setTimeout(() => {
         prev.classList.remove('hero-rotating-word--exit');
       }, 500);
-    }, 2000);
+
+      rotateTimer = setTimeout(rotateWord, 2000);
+    }
+
+    rotateTimer = setTimeout(rotateWord, 2000);
+
+    // Pause when tab hidden, resume when visible
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        clearTimeout(rotateTimer);
+        rotateTimer = null;
+      } else {
+        if (!rotateTimer) {
+          rotateTimer = setTimeout(rotateWord, 1000);
+        }
+      }
+    });
   }
 
 

@@ -363,8 +363,8 @@ ul, ol {
   display: block;
   position: relative;
   height: 1.15em;
-  overflow-x: visible;
-  overflow-y: clip;
+  overflow: visible;
+  clip-path: inset(-5% -100% -5% -100%);
 }
 
 .hero-rotating {
