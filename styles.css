@@ -1049,17 +1049,17 @@ ul, ol {
   --glow-spread: 40;
   --glow-border-width: 3px;
   --glow-gradient:
-    radial-gradient(circle, #dd7bbb 10%, #dd7bbb00 20%),
-    radial-gradient(circle at 40% 40%, #d79f1e 5%, #d79f1e00 15%),
-    radial-gradient(circle at 60% 60%, #5a922c 10%, #5a922c00 20%),
-    radial-gradient(circle at 40% 60%, #4c7894 10%, #4c789400 20%),
+    radial-gradient(circle, #34d399 10%, #34d39900 20%),
+    radial-gradient(circle at 40% 40%, #10b981 5%, #10b98100 15%),
+    radial-gradient(circle at 60% 60%, #059669 10%, #05966900 20%),
+    radial-gradient(circle at 40% 60%, #6ee7b7 10%, #6ee7b700 20%),
     repeating-conic-gradient(
       from 236.84deg at 50% 50%,
-      #dd7bbb 0%,
-      #d79f1e 5%,
-      #5a922c 10%,
-      #4c7894 15%,
-      #dd7bbb 20%
+      #34d399 0%,
+      #10b981 5%,
+      #059669 10%,
+      #6ee7b7 15%,
+      #34d399 20%
     );
   position: relative;
 }
