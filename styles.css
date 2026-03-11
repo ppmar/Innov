@@ -358,6 +358,49 @@ ul, ol {
   animation: gradientShift 6s ease-in-out infinite;
 }
 
+/* Hero rotating words */
+.hero-rotating-wrap {
+  display: block;
+  position: relative;
+  height: 1.15em;
+  overflow: hidden;
+}
+
+.hero-rotating {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-rotating-word {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0;
+  transform: translateY(80px);
+  transition: opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: opacity, transform;
+}
+
+.hero-rotating-word--active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-rotating-word--exit {
+  opacity: 0;
+  transform: translateY(-80px);
+}
+
 /* Hero subtitle */
 .hero-subtitle {
   font-size: var(--text-body-lg);

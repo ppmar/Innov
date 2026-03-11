@@ -851,6 +851,42 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
+  /* ---- Hero Rotating Words ---- */
+  const rotatingWords = document.querySelectorAll('.hero-rotating-word');
+  if (rotatingWords.length > 1) {
+    let currentWord = 0;
+
+    setInterval(() => {
+      const prev = rotatingWords[currentWord];
+      prev.classList.remove('hero-rotating-word--active');
+      prev.classList.add('hero-rotating-word--exit');
+
+      currentWord = (currentWord + 1) % rotatingWords.length;
+      const next = rotatingWords[currentWord];
+
+      // Reset position below before animating in
+      next.classList.remove('hero-rotating-word--exit');
+      next.style.transition = 'none';
+      next.style.transform = 'translateY(80px)';
+      next.style.opacity = '0';
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          next.style.transition = '';
+          next.classList.add('hero-rotating-word--active');
+          next.style.transform = '';
+          next.style.opacity = '';
+        });
+      });
+
+      // Clean exit class after transition
+      setTimeout(() => {
+        prev.classList.remove('hero-rotating-word--exit');
+      }, 500);
+    }, 2000);
+  }
+
+
   /* ---- Nav shadow on scroll ---- */
   const nav = document.querySelector('.nav');
   window.addEventListener('scroll', () => {
