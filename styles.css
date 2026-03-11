@@ -849,14 +849,57 @@ ul, ol {
 }
 
 
-/* ===== PROBLEM SECTION ===== */
+/* ===== PROBLEM SECTION — SCROLL EXPANSION ===== */
 
-/* Sparkles section */
-.sparkles-section {
+/* Scroll container — tall to give scroll room */
+.expand-scroll {
+  height: 250vh;
   position: relative;
-  overflow: hidden;
 }
 
+/* Sticky inner — locks to viewport during scroll */
+.expand-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* Expanding viewport card */
+.expand-viewport {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--bg-primary);
+  transition: border-radius 0.1s ease;
+  will-change: width, height, border-radius;
+}
+
+/* Content inside expanding viewport */
+.expand-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.expand-content.expand-content--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Sparkles canvas fills the viewport */
 .sparkles-canvas {
   position: absolute;
   inset: 0;

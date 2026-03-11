@@ -902,56 +902,62 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  /* ---- Sparkles Canvas ---- */
+  /* ---- Scroll Expansion + Sparkles ---- */
+  const expandScroll = document.getElementById('expand-scroll');
+  const expandViewport = document.getElementById('expand-viewport');
+  const expandContent = document.getElementById('expand-content');
   const sparklesCanvas = document.getElementById('sparkles-canvas');
-  if (sparklesCanvas) {
+
+  if (expandScroll && expandViewport && sparklesCanvas) {
     const ctx = sparklesCanvas.getContext('2d');
     let particles = [];
     let sparklesAnimId = null;
+    let lastCanvasW = 0;
+    let lastCanvasH = 0;
 
     function resizeSparkles() {
-      const rect = sparklesCanvas.parentElement.getBoundingClientRect();
-      sparklesCanvas.width = rect.width;
-      sparklesCanvas.height = rect.height;
+      const w = expandViewport.offsetWidth;
+      const h = expandViewport.offsetHeight;
+      if (w !== lastCanvasW || h !== lastCanvasH) {
+        sparklesCanvas.width = w;
+        sparklesCanvas.height = h;
+        lastCanvasW = w;
+        lastCanvasH = h;
+        // Add particles for new area
+        const targetDensity = Math.min(250, Math.floor(w * h / 2000));
+        while (particles.length < targetDensity) {
+          particles.push(createParticle(w, h));
+        }
+      }
     }
 
-    function createParticle() {
+    function createParticle(w, h) {
       return {
-        x: Math.random() * sparklesCanvas.width,
-        y: Math.random() * sparklesCanvas.height,
-        size: Math.random() * 2 + 0.5,
-        speedX: (Math.random() - 0.5) * 0.3,
-        speedY: (Math.random() - 0.5) * 0.3,
+        x: Math.random() * w,
+        y: Math.random() * h,
+        size: Math.random() * 2.5 + 0.5,
+        speedX: (Math.random() - 0.5) * 0.4,
+        speedY: (Math.random() - 0.5) * 0.4,
         opacity: Math.random(),
         fadeSpeed: 0.005 + Math.random() * 0.015,
         fadeDir: 1
       };
     }
 
-    function initSparkles() {
-      resizeSparkles();
-      particles = [];
-      const density = Math.min(200, Math.floor(sparklesCanvas.width * sparklesCanvas.height / 2500));
-      for (let i = 0; i < density; i++) {
-        particles.push(createParticle());
-      }
-    }
-
     function drawSparkles() {
-      ctx.clearRect(0, 0, sparklesCanvas.width, sparklesCanvas.height);
+      const w = sparklesCanvas.width;
+      const h = sparklesCanvas.height;
+      ctx.clearRect(0, 0, w, h);
       particles.forEach(p => {
         p.x += p.speedX;
         p.y += p.speedY;
-
         p.opacity += p.fadeSpeed * p.fadeDir;
         if (p.opacity >= 1) { p.opacity = 1; p.fadeDir = -1; }
         if (p.opacity <= 0.05) { p.opacity = 0.05; p.fadeDir = 1; }
-
-        // Wrap around
-        if (p.x < 0) p.x = sparklesCanvas.width;
-        if (p.x > sparklesCanvas.width) p.x = 0;
-        if (p.y < 0) p.y = sparklesCanvas.height;
-        if (p.y > sparklesCanvas.height) p.y = 0;
+        if (p.x < 0) p.x = w;
+        if (p.x > w) p.x = 0;
+        if (p.y < 0) p.y = h;
+        if (p.y > h) p.y = 0;
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
@@ -961,12 +967,39 @@ document.addEventListener('DOMContentLoaded', () => {
       sparklesAnimId = requestAnimationFrame(drawSparkles);
     }
 
-    // Only run when visible
-    const sparklesObserver = new IntersectionObserver((entries) => {
+    // Drive expansion from scroll position
+    function updateExpansion() {
+      const rect = expandScroll.getBoundingClientRect();
+      const scrollRange = expandScroll.offsetHeight - window.innerHeight;
+      const progress = Math.min(Math.max(-rect.top / scrollRange, 0), 1);
+
+      // Expand viewport from 40% to 100%
+      const widthPct = 40 + progress * 60;
+      const heightPct = 45 + progress * 55;
+      const radius = 24 * (1 - progress);
+
+      expandViewport.style.width = widthPct + '%';
+      expandViewport.style.height = heightPct + '%';
+      expandViewport.style.borderRadius = radius + 'px';
+
+      // Show content after 40% expansion
+      if (progress > 0.4) {
+        expandContent.classList.add('expand-content--visible');
+      } else {
+        expandContent.classList.remove('expand-content--visible');
+      }
+
+      // Resize sparkles canvas to match
+      resizeSparkles();
+    }
+
+    // Start sparkles when in view
+    const expandObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          initSparkles();
-          drawSparkles();
+          particles = [];
+          resizeSparkles();
+          if (!sparklesAnimId) drawSparkles();
         } else {
           if (sparklesAnimId) {
             cancelAnimationFrame(sparklesAnimId);
@@ -974,12 +1007,13 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.05 });
 
-    sparklesObserver.observe(sparklesCanvas.parentElement);
-    window.addEventListener('resize', () => {
-      if (sparklesAnimId) resizeSparkles();
-    });
+    expandObserver.observe(expandScroll);
+
+    window.addEventListener('scroll', updateExpansion, { passive: true });
+    window.addEventListener('resize', () => { resizeSparkles(); updateExpansion(); });
+    updateExpansion();
   }
 
 
