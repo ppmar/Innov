@@ -1041,71 +1041,93 @@ ul, ol {
   z-index: 0;
 }
 
-/* ===== GLOWING EFFECT (mouse-tracking border glow) ===== */
+/* ===== SPOTLIGHT CARD GLOW (mouse-tracking radial border) ===== */
 
-.feature-glow-wrap {
+.spotlight-card {
+  --spot-x: 0;
+  --spot-y: 0;
+  --spot-hue: 210;
+  --spot-border: 2px;
+  --spot-size: 200px;
   position: relative;
-  border-radius: calc(var(--radius-xl) + 3px);
-  padding: 3px;
+  touch-action: none;
 }
 
-.glow-border {
-  --glow-start: 0;
-  --glow-active: 0;
-  --glow-spread: 40;
+/* Colored border glow */
+.spotlight-card::before {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: calc(var(--spot-border) * -1);
+  border: var(--spot-border) solid transparent;
+  border-radius: inherit;
+  background-image: radial-gradient(
+    calc(var(--spot-size) * 0.75) calc(var(--spot-size) * 0.75)
+    at calc(var(--spot-x) * 1px) calc(var(--spot-y) * 1px),
+    hsl(var(--spot-hue) 100% 50% / var(--spot-opacity, 0)),
+    transparent 100%
+  );
+  background-attachment: fixed;
+  background-size: calc(100% + var(--spot-border) * 2) calc(100% + var(--spot-border) * 2);
+  background-position: 50% 50%;
+  mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+  -webkit-mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
+  -webkit-mask-clip: padding-box, border-box;
+  -webkit-mask-composite: source-in;
+  filter: brightness(2);
+  transition: --spot-opacity 0.3s;
+}
+
+/* White highlight center */
+.spotlight-card::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: calc(var(--spot-border) * -1);
+  border: var(--spot-border) solid transparent;
+  border-radius: inherit;
+  background-image: radial-gradient(
+    calc(var(--spot-size) * 0.5) calc(var(--spot-size) * 0.5)
+    at calc(var(--spot-x) * 1px) calc(var(--spot-y) * 1px),
+    hsl(0 100% 100% / var(--spot-opacity, 0)),
+    transparent 100%
+  );
+  background-attachment: fixed;
+  background-size: calc(100% + var(--spot-border) * 2) calc(100% + var(--spot-border) * 2);
+  background-position: 50% 50%;
+  mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+  -webkit-mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
+  -webkit-mask-clip: padding-box, border-box;
+  -webkit-mask-composite: source-in;
+  transition: --spot-opacity 0.3s;
+}
+
+/* Override overflow for spotlight pseudo-elements */
+.spotlight-card {
+  overflow: visible !important;
+}
+
+/* Outer blur glow halo */
+.spotlight-card > .spot-glow {
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-/* The actual conic gradient glow — clipped to border area */
-.glow-border::after {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border-radius: inherit;
-  border: 3px solid transparent;
-  background:
-    radial-gradient(circle, #dd7bbb 10%, transparent 20%),
-    radial-gradient(circle at 40% 40%, #d79f1e 5%, transparent 15%),
-    radial-gradient(circle at 60% 60%, #5a922c 10%, transparent 20%),
-    radial-gradient(circle at 40% 60%, #4c7894 10%, transparent 20%),
-    repeating-conic-gradient(
-      from calc((var(--glow-start) - var(--glow-spread)) * 1deg) at 50% 50%,
-      #dd7bbb 0%,
-      #d79f1e 5%,
-      #5a922c 10%,
-      #4c7894 15%,
-      #dd7bbb 20%
-    );
+  will-change: filter;
+  opacity: var(--spot-opacity, 0);
+  filter: blur(20px);
+  background-image: radial-gradient(
+    calc(var(--spot-size) * 0.75) calc(var(--spot-size) * 0.75)
+    at calc(var(--spot-x) * 1px) calc(var(--spot-y) * 1px),
+    hsl(var(--spot-hue) 100% 50% / 0.4),
+    transparent 100%
+  );
   background-attachment: fixed;
-  opacity: var(--glow-active);
-  transition: opacity 0.3s ease;
-  mask-clip: padding-box, border-box;
-  -webkit-mask-clip: padding-box, border-box;
-  mask-composite: intersect;
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(#0000, #0000),
-    conic-gradient(
-      from calc((var(--glow-start) - var(--glow-spread)) * 1deg),
-      transparent 0deg,
-      #fff,
-      transparent calc(var(--glow-spread) * 2deg)
-    );
-  -webkit-mask-image: linear-gradient(#0000, #0000),
-    conic-gradient(
-      from calc((var(--glow-start) - var(--glow-spread)) * 1deg),
-      transparent 0deg,
-      #fff,
-      transparent calc(var(--glow-spread) * 2deg)
-    );
-}
-
-.glow-border.glow-active {
-  opacity: 1;
+  transition: opacity 0.3s;
 }
 
 /* ===== FEATURES GRID ===== */
@@ -1132,23 +1154,6 @@ ul, ol {
   cursor: default;
 }
 
-/* Top edge highlight */
-.feature::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 20%;
-  right: 20%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
-  pointer-events: none;
-}
-
-.feature-glow-wrap:hover .feature {
-  transform: translateY(-6px);
-  border-color: var(--glass-border-hover);
-  box-shadow: var(--shadow-card-hover);
-}
 
 .feature-icon {
   width: 52px;
@@ -1303,21 +1308,7 @@ ul, ol {
   overflow: hidden;
 }
 
-/* Top shimmer */
-.fund-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
-  pointer-events: none;
-}
-
 .fund-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-card-hover);
   border-color: var(--glass-border-hover);
 }
 
@@ -2800,9 +2791,7 @@ ul, ol {
 }
 
 .team-member:hover {
-  transform: translateY(-4px);
   border-color: var(--glass-border-hover);
-  box-shadow: var(--shadow-card-hover);
 }
 
 .team-linkedin {
@@ -3177,12 +3166,10 @@ ul, ol {
     gap: 16px;
   }
 
-  .glow-border {
+  .spotlight-card::before,
+  .spotlight-card::after,
+  .spotlight-card > .spot-glow {
     display: none;
-  }
-
-  .feature-glow-wrap {
-    padding: 0;
   }
 
   /* Carousel mobile */
