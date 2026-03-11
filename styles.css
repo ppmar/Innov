@@ -872,12 +872,12 @@ ul, ol {
 /* Expanding viewport card */
 .expand-viewport {
   position: absolute;
-  width: 50%;
-  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 24px;
   overflow: hidden;
   background: var(--bg-primary);
-  transition: border-radius 0.1s ease;
   will-change: width, height, border-radius;
 }
 

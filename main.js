@@ -973,13 +973,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const scrollRange = expandScroll.offsetHeight - window.innerHeight;
       const progress = Math.min(Math.max(-rect.top / scrollRange, 0), 1);
 
-      // Expand viewport from 40% to 100%
-      const widthPct = 40 + progress * 60;
-      const heightPct = 45 + progress * 55;
+      // Use actual window pixel dimensions for full coverage
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const startW = vw * 0.4;
+      const startH = vh * 0.45;
+      const w = startW + progress * (vw - startW);
+      const h = startH + progress * (vh - startH);
       const radius = 24 * (1 - progress);
 
-      expandViewport.style.width = widthPct + '%';
-      expandViewport.style.height = heightPct + '%';
+      expandViewport.style.width = w + 'px';
+      expandViewport.style.height = h + 'px';
       expandViewport.style.borderRadius = radius + 'px';
 
       // Show content after 40% expansion
