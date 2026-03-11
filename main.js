@@ -82,9 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Set base transforms for back card
+  // Set base transforms for parallax cards
   const backCard = document.querySelector('.hero-card--back');
   if (backCard) backCard.dataset.parallaxBase = 'rotate(4deg) scale(0.93)';
+  const thirdCard = document.querySelector('.hero-card--third');
+  if (thirdCard) thirdCard.dataset.parallaxBase = 'rotate(-3deg) scale(0.88)';
 
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll(); // initial run
@@ -532,10 +534,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function esgScoreColor(score) {
-    if (score >= 90) return 'var(--emerald)';
-    if (score >= 75) return 'var(--emerald-dim)';
+    if (score >= 90) return 'var(--accent)';
+    if (score >= 75) return 'var(--accent-dim)';
     if (score >= 60) return 'var(--gold)';
-    return 'var(--text-muted)';
+    return 'var(--text-tertiary)';
   }
 
   function renderGlobes(count) {
@@ -858,5 +860,101 @@ document.addEventListener('DOMContentLoaded', () => {
       nav.style.boxShadow = 'none';
     }
   }, { passive: true });
+
+
+  /* ---- Methodology Tabs ---- */
+  const methodTabs = document.querySelectorAll('.method-tab');
+  const methodPanels = document.querySelectorAll('.method-panel');
+  const methodIndicator = document.querySelector('.method-tab-indicator');
+
+  function activateMethodTab(tab) {
+    const target = tab.dataset.tab;
+
+    methodTabs.forEach(t => t.classList.remove('method-tab--active'));
+    tab.classList.add('method-tab--active');
+
+    methodPanels.forEach(p => {
+      p.classList.toggle('method-panel--active', p.dataset.panel === target);
+    });
+
+    // Slide indicator under active tab
+    if (methodIndicator) {
+      methodIndicator.style.width = tab.offsetWidth + 'px';
+      methodIndicator.style.left = tab.offsetLeft + 'px';
+    }
+  }
+
+  methodTabs.forEach(tab => {
+    tab.addEventListener('click', () => activateMethodTab(tab));
+  });
+
+  // Initialize indicator position
+  const activeMethodTab = document.querySelector('.method-tab--active');
+  if (activeMethodTab && methodIndicator) {
+    methodIndicator.style.width = activeMethodTab.offsetWidth + 'px';
+    methodIndicator.style.left = activeMethodTab.offsetLeft + 'px';
+  }
+
+
+  /* ---- Fund Filter Buttons ---- */
+  const filterBtns = document.querySelectorAll('.fund-filter-btn');
+  const fundCards = document.querySelectorAll('.fund-card[data-category]');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('fund-filter-btn--active'));
+      btn.classList.add('fund-filter-btn--active');
+
+      const filter = btn.dataset.filter;
+
+      fundCards.forEach(card => {
+        if (filter === 'all' || card.dataset.category.includes(filter)) {
+          card.style.display = '';
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            });
+          });
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+
+  /* ---- Scroll Reveal — IntersectionObserver ---- */
+  const revealElements = document.querySelectorAll('.fade-in-up, .scale-reveal, .slide-in-left, .slide-in-right');
+  const drawElements = document.querySelectorAll('.draw-on-scroll');
+
+  if (revealElements.length > 0) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+  }
+
+  if (drawElements.length > 0) {
+    const drawObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          drawObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    drawElements.forEach(el => drawObserver.observe(el));
+  }
 
 });

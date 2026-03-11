@@ -3,33 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TransInvestment — Investir durablement, en toute clarté</title>
-  <meta name="description" content="Un outil d'aide à la décision pour orienter vos investissements vers des placements durables et responsables.">
+  <title>TransInvestment — Investir durablement, en toute clarte</title>
+  <meta name="description" content="Un outil d'aide a la decision pour orienter vos investissements vers des placements durables et responsables.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-tokens.css">
+  <link rel="stylesheet" href="animations.css">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="grain-overlay">
 
   <!-- ===== NAV ===== -->
   <nav class="nav">
     <div class="nav-inner">
       <a href="#" class="nav-brand">
-        <svg class="nav-logo" width="28" height="28" viewBox="0 0 32 32" fill="none">
-          <rect width="32" height="32" rx="8" fill="#0b3d2c"/>
+        <svg class="nav-logo" width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect width="32" height="32" rx="8" fill="var(--accent, #00C853)"/>
           <path d="M16 6 L16 18 M10 14 L16 18 L22 14" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="16" cy="24" r="2" fill="#d4a843"/>
+          <circle cx="16" cy="24" r="2" fill="var(--bg-primary, #0a0a0a)"/>
         </svg>
         <span>TransInvestment</span>
       </a>
       <div class="nav-links" id="nav-links">
-        <a href="#problematique">Problématique</a>
+        <a href="#problematique">Problematique</a>
         <a href="#outil">L'outil</a>
         <a href="#fonds">Fonds</a>
         <a href="#simulateur">Simulateur</a>
-        <a href="#methodologie">Méthodologie</a>
-        <a href="#equipe">Équipe</a>
+        <a href="#methodologie">Methodologie</a>
+        <a href="#equipe">Equipe</a>
       </div>
       <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -38,7 +40,7 @@
   </nav>
 
   <!-- ===== HERO ===== -->
-  <section class="hero">
+  <section class="hero" role="region" aria-label="Accueil">
     <div class="hero-photo" id="hero-photo">
       <img src="hero-bg.jpeg" alt="" width="1920" height="1080" loading="eager">
     </div>
@@ -48,51 +50,44 @@
       <div class="hero-glow hero-glow--1"></div>
       <div class="hero-glow hero-glow--2"></div>
       <div class="hero-glow hero-glow--3"></div>
-      <svg class="hero-curve" viewBox="0 0 1440 120" preserveAspectRatio="none">
-        <path d="M0,80 C360,120 1080,20 1440,60 L1440,120 L0,120 Z" fill="var(--bg)"/>
+      <svg class="hero-curve" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,80 C360,120 1080,20 1440,60 L1440,120 L0,120 Z" fill="var(--bg-primary, #0a0a0a)"/>
       </svg>
     </div>
 
-    <div class="hero-container">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          Projet IMT Atlantique
-        </div>
+    <div class="hero-container" style="text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <div class="hero-content" style="max-width:900px; margin:0 auto;">
 
-        <h1 class="hero-title">
-          Investir durablement,
-          <span class="hero-title-accent">en toute clarté</span>
+        <h1 class="hero-title" style="font-size:var(--text-hero); line-height:var(--leading-tight); letter-spacing:var(--tracking-tighter); font-weight:800;">
+          Investir avec clarte.
         </h1>
 
-        <p class="hero-subtitle">
-          Un outil d'aide à la décision sobre et explicable pour orienter vos placements vers des investissements responsables, en comprenant les risques, les performances et l'impact réel.
+        <p class="hero-subtitle" style="color:var(--text-secondary); font-size:var(--text-body-lg); max-width:600px; margin:var(--space-6) auto 0; line-height:var(--leading-normal);">
+          L'outil qui rend l'investissement durable transparent, explicable et accessible.
         </p>
 
-        <div class="hero-actions">
+        <div class="hero-actions" style="display:flex; gap:var(--space-4); justify-content:center; margin-top:var(--space-7);">
           <a href="#outil" class="btn btn-primary">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            Découvrir l'outil
+            Decouvrir l'outil
           </a>
           <a href="#problematique" class="btn btn-secondary">
-            En savoir plus
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            Notre approche
           </a>
         </div>
       </div>
 
-      <div class="hero-visual" data-parallax="0.12">
-        <div class="hero-card hero-card--back" data-parallax="0.06">
+      <div class="hero-visual" data-parallax="0.12" style="margin-top:var(--space-8);">
+        <div class="hero-card hero-card--back glass-card" data-parallax="0.06">
           <div class="card-header">
             <span class="card-dot card-dot--gold"></span>
             ETF Classique
           </div>
           <div class="card-row"><span>Rendement</span><strong>8.1%</strong></div>
           <div class="card-row"><span>Score ESG</span><strong class="score score--mid">B</strong></div>
-          <div class="card-row"><span>Risque</span><strong>Modéré</strong></div>
+          <div class="card-row"><span>Risque</span><strong>Modere</strong></div>
         </div>
 
-        <div class="hero-card hero-card--front" data-parallax="0.18">
+        <div class="hero-card hero-card--front glass-card" data-parallax="0.18">
           <div class="card-header">
             <span class="card-dot card-dot--green"></span>
             Fonds Vert
@@ -113,26 +108,42 @@
             </div>
           </div>
         </div>
+
+        <div class="hero-card hero-card--third glass-card" data-parallax="0.10">
+          <div class="card-header">
+            <span class="card-dot card-dot--green"></span>
+            Impact
+          </div>
+          <div class="card-row"><span>Rendement</span><strong>6.8%</strong></div>
+          <div class="card-row"><span>Score ESG</span><strong class="score score--high">AAA</strong></div>
+          <div class="card-row"><span>Risque</span><strong>Modere</strong></div>
+        </div>
       </div>
 
+      <!-- Scroll indicator -->
+      <div class="scroll-indicator" style="position:absolute; bottom:var(--space-7); left:50%; transform:translateX(-50%);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="1.5" style="animation:chevronPulse 2s ease-in-out infinite;" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
     </div>
 
     <!-- Key stats band -->
     <div class="stats-band">
       <div class="stats-inner">
         <div class="stat" data-target="64">
-          <div class="stat-value"><span class="stat-number">0</span>%</div>
-          <div class="stat-desc">des personnes interrogées souhaitent être conseillées sur les placements responsables</div>
+          <div class="stat-value"><span class="stat-number counter-animate">0</span>%</div>
+          <div class="stat-desc">souhaitent etre conseilles sur les placements responsables</div>
         </div>
         <div class="stat-divider"></div>
         <div class="stat" data-target="66">
-          <div class="stat-value"><span class="stat-number">0</span>%</div>
-          <div class="stat-desc">des Français considèrent le développement durable comme un enjeu important</div>
+          <div class="stat-value"><span class="stat-number counter-animate">0</span>%</div>
+          <div class="stat-desc">considerent le developpement durable comme un enjeu important</div>
         </div>
         <div class="stat-divider"></div>
         <div class="stat" data-target="72">
-          <div class="stat-value"><span class="stat-number">0</span>%</div>
-          <div class="stat-desc">ne connaissent pas les façons d'investir de manière responsable ou durable</div>
+          <div class="stat-value"><span class="stat-number counter-animate">0</span>%</div>
+          <div class="stat-desc">ne connaissent pas les facons d'investir de maniere responsable</div>
         </div>
       </div>
       <div class="stats-source">Source : Sondage OpinionWay pour l'AMF, 2023</div>
@@ -140,43 +151,52 @@
   </section>
 
   <!-- ===== PROBLEM SECTION ===== -->
-  <section class="section parallax-section" id="problematique">
+  <section class="section parallax-section fade-in-up" id="problematique" role="region" aria-label="Problematique">
     <div class="section-container">
       <span class="section-tag">Le constat</span>
-      <h2>Un décalage entre intention et action</h2>
-      <p class="section-lead">Les investisseurs particuliers veulent agir pour le climat, mais manquent d'outils lisibles pour comprendre l'impact réel de leurs choix financiers.</p>
+      <h2>Un decalage entre intention et action</h2>
+      <p class="section-lead">Les investisseurs particuliers veulent agir pour le climat, mais manquent d'outils lisibles pour comprendre l'impact reel de leurs choix financiers.</p>
 
       <blockquote class="problematique">
-        Comment permettre aux investisseurs particuliers d'orienter leurs décisions financières vers des investissements plus durables et responsables, tout en conservant une compréhension claire des risques et des performances, grâce à un outil numérique sobre et explicable ?
+        Comment permettre aux investisseurs particuliers d'orienter leurs decisions financieres vers des investissements plus durables et responsables, tout en conservant une comprehension claire des risques et des performances, grace a un outil numerique sobre et explicable ?
       </blockquote>
+
+      <div class="section-divider" style="width:80px; height:1px; background:var(--gradient-divider); margin:var(--space-7) auto 0;"></div>
     </div>
   </section>
 
   <!-- ===== VALUE PROP ===== -->
-  <section class="section section--alt parallax-section" id="outil">
+  <section class="section section--alt parallax-section fade-in-up" id="outil" role="region" aria-label="L'outil">
     <div class="section-container">
       <span class="section-tag">La solution</span>
-      <h2>Un outil pédagogique, sobre et explicable</h2>
-      <p class="section-lead">Comparez des scénarios d'investissement en intégrant des critères financiers et de durabilité. Pas d'automatisation opaque — vous gardez le contrôle.</p>
+      <h2>Un outil pedagogique, sobre et explicable</h2>
+      <p class="section-lead">Comparez des scenarios d'investissement en integrant des criteres financiers et de durabilite. Pas d'automatisation opaque — vous gardez le controle.</p>
 
       <div class="features">
-        <div class="feature">
+        <div class="feature fade-in-up stagger-1">
           <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="draw-on-scroll" aria-hidden="true">
+              <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
           </div>
           <h3>Comparaison ESG</h3>
-          <p>Évaluez et comparez les critères environnementaux, sociaux et de gouvernance de chaque investissement.</p>
+          <p>Evaluez et comparez les criteres environnementaux, sociaux et de gouvernance de chaque investissement.</p>
         </div>
-        <div class="feature">
+        <div class="feature fade-in-up stagger-2">
           <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="draw-on-scroll" aria-hidden="true">
+              <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+            </svg>
           </div>
           <h3>Transparence totale</h3>
-          <p>Chaque recommandation est explicable. Comprenez pourquoi un investissement est noté ainsi.</p>
+          <p>Chaque recommandation est explicable. Comprenez pourquoi un investissement est note ainsi.</p>
         </div>
-        <div class="feature">
+        <div class="feature fade-in-up stagger-3">
           <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="draw-on-scroll" aria-hidden="true">
+              <path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>
+            </svg>
           </div>
           <h3>Risque vs. Impact</h3>
           <p>Visualisez les compromis entre rendement financier, risque et impact environnemental.</p>
@@ -186,28 +206,37 @@
   </section>
 
   <!-- ===== FONDS CAROUSEL ===== -->
-  <section class="section parallax-section" id="fonds">
+  <section class="section parallax-section fade-in-up" id="fonds" role="region" aria-label="Fonds proposes">
     <div class="section-container">
       <span class="section-tag">Exemples</span>
-      <h2>Quelques fonds proposés</h2>
-      <p class="section-lead">Explorez des investissements durables concrets, évalués selon leurs performances financières et leur impact environnemental.</p>
+      <h2>Quelques fonds proposes</h2>
+      <p class="section-lead">Explorez des investissements durables concrets, evalues selon leurs performances financieres et leur impact environnemental.</p>
+
+      <div class="fund-filters">
+        <button class="fund-filter-btn fund-filter-btn--active" data-filter="all">Tous</button>
+        <button class="fund-filter-btn" data-filter="esg">ESG Leaders</button>
+        <button class="fund-filter-btn" data-filter="etf">ETF</button>
+        <button class="fund-filter-btn" data-filter="impact">Impact</button>
+        <button class="fund-filter-btn" data-filter="classic">Classiques</button>
+      </div>
     </div>
 
     <div class="carousel">
-      <button class="carousel-btn carousel-btn--prev" aria-label="Précédent">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      <button class="carousel-btn carousel-btn--prev" aria-label="Precedent">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
 
       <div class="carousel-track-wrapper">
         <div class="carousel-track">
 
-          <div class="fund-card">
+          <!-- 1. Amundi ISR -->
+          <div class="fund-card glass-card" data-category="esg">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--green">MSCI AA</div>
               <div class="fund-type">Actions — Art. 8</div>
             </div>
             <h3 class="fund-name">Amundi ISR Actions Europe</h3>
-            <p class="fund-desc">Fonds investissant dans des entreprises européennes sélectionnées selon des critères ESG stricts. ISIN : FR0011020943</p>
+            <p class="fund-desc">Fonds investissant dans des entreprises europeennes selectionnees selon des criteres ESG stricts. ISIN : FR0011020943</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+12,64%</span>
@@ -217,24 +246,25 @@
                 <span class="fund-metric-value">1,49%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">83/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 83%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--accent)" stroke-width="2.5"
+                  stroke-dasharray="83, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">83</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 2. BNP Green Bond -->
+          <div class="fund-card glass-card" data-category="impact">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--green">MSCI A</div>
               <div class="fund-type">Obligations — Art. 9</div>
             </div>
             <h3 class="fund-name">BNP Paribas Green Bond</h3>
-            <p class="fund-desc">Obligations vertes finançant des projets d'énergie renouvelable, d'efficacité énergétique et de transport propre. ISIN : FR0013233387</p>
+            <p class="fund-desc">Obligations vertes financant des projets d'energie renouvelable, d'efficacite energetique et de transport propre. ISIN : FR0013233387</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+2,83%</span>
@@ -244,24 +274,25 @@
                 <span class="fund-metric-value">1,21%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">86/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 86%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--accent)" stroke-width="2.5"
+                  stroke-dasharray="86, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">86</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 3. Lyxor ESG -->
+          <div class="fund-card glass-card" data-category="esg etf">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--green">MSCI AAA</div>
               <div class="fund-type">ETF — Art. 8</div>
             </div>
             <h3 class="fund-name">Lyxor MSCI World ESG Leaders</h3>
-            <p class="fund-desc">ETF répliquant un indice mondial d'entreprises leaders en matière de pratiques ESG, avec diversification géographique large. ISIN : LU1792117779</p>
+            <p class="fund-desc">ETF repliquant un indice mondial d'entreprises leaders en matiere de pratiques ESG, avec diversification geographique large. ISIN : LU1792117779</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+22,50%</span>
@@ -271,24 +302,25 @@
                 <span class="fund-metric-value">0,18%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">90/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 90%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--accent)" stroke-width="2.5"
+                  stroke-dasharray="90, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">90</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 4. Mirova -->
+          <div class="fund-card glass-card" data-category="impact">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--green">MSCI AAA</div>
               <div class="fund-type">Impact — Art. 9</div>
             </div>
             <h3 class="fund-name">Mirova Europe Environmental Equity</h3>
-            <p class="fund-desc">Fonds à impact ciblant les entreprises européennes apportant des solutions concrètes aux défis environnementaux. ISIN : FR0010521503</p>
+            <p class="fund-desc">Fonds a impact ciblant les entreprises europeennes apportant des solutions concretes aux defis environnementaux. ISIN : FR0010521503</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+16,59%</span>
@@ -298,24 +330,25 @@
                 <span class="fund-metric-value">1,78%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">100/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 100%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--accent)" stroke-width="2.5"
+                  stroke-dasharray="100, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">100</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 5. La Banque Postale -->
+          <div class="fund-card glass-card" data-category="esg">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--green">MSCI AA</div>
               <div class="fund-type">Mixte — Art. 9</div>
             </div>
             <h3 class="fund-name">La Banque Postale Multi Actions Durables</h3>
-            <p class="fund-desc">Fonds diversifié actions/obligations avec filtre ISR, accessible via PEA. Bonne porte d'entrée pour les débutants. ISIN : FR0010913916</p>
+            <p class="fund-desc">Fonds diversifie actions/obligations avec filtre ISR, accessible via PEA. Bonne porte d'entree pour les debutants. ISIN : FR0010913916</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+4,74%</span>
@@ -325,24 +358,25 @@
                 <span class="fund-metric-value">1,55%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">83/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 83%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--accent)" stroke-width="2.5"
+                  stroke-dasharray="83, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">83</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 6. Amundi World -->
+          <div class="fund-card glass-card" data-category="etf classic">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--gold">MSCI BBB</div>
               <div class="fund-type">ETF Monde — Art. 6</div>
             </div>
             <h3 class="fund-name">Amundi MSCI World UCITS ETF</h3>
-            <p class="fund-desc">ETF répliquant l'indice MSCI World, exposition diversifiée aux marchés développés mondiaux à frais réduits.</p>
+            <p class="fund-desc">ETF repliquant l'indice MSCI World, exposition diversifiee aux marches developpes mondiaux a frais reduits.</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+23,10%</span>
@@ -352,24 +386,25 @@
                 <span class="fund-metric-value">0,38%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">48/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 48%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--gold)" stroke-width="2.5"
+                  stroke-dasharray="48, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">48</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 7. Fidelity -->
+          <div class="fund-card glass-card" data-category="classic">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--gold">MSCI BBB</div>
               <div class="fund-type">Actions Monde — Art. 6</div>
             </div>
             <h3 class="fund-name">Fidelity World Fund</h3>
-            <p class="fund-desc">Fonds actions mondiales géré activement, sélection bottom-up d'entreprises de qualité à travers le monde.</p>
+            <p class="fund-desc">Fonds actions mondiales gere activement, selection bottom-up d'entreprises de qualite a travers le monde.</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+20,45%</span>
@@ -379,24 +414,25 @@
                 <span class="fund-metric-value">2,64%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">43/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 43%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--gold)" stroke-width="2.5"
+                  stroke-dasharray="43, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">43</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 8. JPMorgan Tech -->
+          <div class="fund-card glass-card" data-category="classic">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--gold">MSCI BB</div>
               <div class="fund-type">Tech US — Art. 6</div>
             </div>
             <h3 class="fund-name">JPMorgan US Technology Fund</h3>
-            <p class="fund-desc">Fonds concentré sur les leaders technologiques américains. Forte croissance historique, volatilité élevée.</p>
+            <p class="fund-desc">Fonds concentre sur les leaders technologiques americains. Forte croissance historique, volatilite elevee.</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+38,15%</span>
@@ -406,24 +442,25 @@
                 <span class="fund-metric-value">1,70%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">30/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 30%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--text-tertiary, #6e6e73)" stroke-width="2.5"
+                  stroke-dasharray="30, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">30</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 9. Magellan -->
+          <div class="fund-card glass-card" data-category="classic">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--gold">MSCI BBB</div>
-              <div class="fund-type">Émergents — Art. 6</div>
+              <div class="fund-type">Emergents — Art. 6</div>
             </div>
             <h3 class="fund-name">Magellan (Comgest)</h3>
-            <p class="fund-desc">Fonds actions marchés émergents, sélection de valeurs de croissance de qualité dans les pays en développement.</p>
+            <p class="fund-desc">Fonds actions marches emergents, selection de valeurs de croissance de qualite dans les pays en developpement.</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+8,90%</span>
@@ -433,24 +470,25 @@
                 <span class="fund-metric-value">1,98%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">43/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 43%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--gold)" stroke-width="2.5"
+                  stroke-dasharray="43, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">43</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 10. Carmignac -->
+          <div class="fund-card glass-card" data-category="classic">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--gold">MSCI A</div>
               <div class="fund-type">Mixte — Art. 6</div>
             </div>
             <h3 class="fund-name">Carmignac Patrimoine</h3>
-            <p class="fund-desc">Fonds patrimonial diversifié actions/obligations avec gestion flexible. Référence historique de l'allocation d'actifs.</p>
+            <p class="fund-desc">Fonds patrimonial diversifie actions/obligations avec gestion flexible. Reference historique de l'allocation d'actifs.</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+7,25%</span>
@@ -460,24 +498,25 @@
                 <span class="fund-metric-value">1,50%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">53/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 53%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--gold)" stroke-width="2.5"
+                  stroke-dasharray="53, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">53</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 11. iShares S&P 500 -->
+          <div class="fund-card glass-card" data-category="etf classic">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--gold">MSCI A</div>
               <div class="fund-type">ETF US — Art. 6</div>
             </div>
             <h3 class="fund-name">iShares Core S&amp;P 500 UCITS ETF</h3>
-            <p class="fund-desc">ETF répliquant le S&amp;P 500, exposition aux 500 plus grandes capitalisations américaines à frais ultra-bas.</p>
+            <p class="fund-desc">ETF repliquant le S&amp;P 500, exposition aux 500 plus grandes capitalisations americaines a frais ultra-bas.</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+25,80%</span>
@@ -487,24 +526,25 @@
                 <span class="fund-metric-value">0,07%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">53/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 53%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--gold)" stroke-width="2.5"
+                  stroke-dasharray="53, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">53</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 12. Franklin Tech -->
+          <div class="fund-card glass-card" data-category="classic">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--gold">MSCI BB</div>
               <div class="fund-type">Tech Monde — Art. 6</div>
             </div>
             <h3 class="fund-name">Franklin Technology Fund</h3>
-            <p class="fund-desc">Fonds technologique mondial investissant dans les entreprises innovantes à forte croissance du secteur tech.</p>
+            <p class="fund-desc">Fonds technologique mondial investissant dans les entreprises innovantes a forte croissance du secteur tech.</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+35,60%</span>
@@ -514,24 +554,25 @@
                 <span class="fund-metric-value">1,81%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">30/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 30%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--text-tertiary, #6e6e73)" stroke-width="2.5"
+                  stroke-dasharray="30, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">30</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 13. Pictet -->
+          <div class="fund-card glass-card" data-category="classic">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--gold">MSCI A</div>
-              <div class="fund-type">Thématique — Art. 6</div>
+              <div class="fund-type">Thematique — Art. 6</div>
             </div>
             <h3 class="fund-name">Pictet Global Megatrend Selection</h3>
-            <p class="fund-desc">Fonds multi-thématique investissant dans les mégatendances mondiales : digitalisation, santé, environnement, démographie.</p>
+            <p class="fund-desc">Fonds multi-thematique investissant dans les megatendances mondiales : digitalisation, sante, environnement, demographie.</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+18,70%</span>
@@ -541,24 +582,25 @@
                 <span class="fund-metric-value">2,01%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">53/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 53%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--gold)" stroke-width="2.5"
+                  stroke-dasharray="53, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">53</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 14. BlackRock Energy -->
+          <div class="fund-card glass-card" data-category="classic">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--gold">MSCI B</div>
-              <div class="fund-type">Énergie — Art. 6</div>
+              <div class="fund-type">Energie — Art. 6</div>
             </div>
             <h3 class="fund-name">BlackRock World Energy Fund</h3>
-            <p class="fund-desc">Fonds sectoriel énergie mondiale, exposé aux majors pétrolières et gazières. Forte cyclicité, faible score ESG.</p>
+            <p class="fund-desc">Fonds sectoriel energie mondiale, expose aux majors petrolieres et gazieres. Forte cyclicite, faible score ESG.</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+5,40%</span>
@@ -568,24 +610,25 @@
                 <span class="fund-metric-value">2,05%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">13/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 13%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--negative, #ff453a)" stroke-width="2.5"
+                  stroke-dasharray="13, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">13</span>
             </div>
           </div>
 
-          <div class="fund-card">
+          <!-- 15. Oddo -->
+          <div class="fund-card glass-card" data-category="classic">
             <div class="fund-card-header">
               <div class="fund-badge fund-badge--gold">MSCI BBB</div>
               <div class="fund-type">Europe Mid — Art. 6</div>
             </div>
             <h3 class="fund-name">Oddo BHF Avenir Europe</h3>
-            <p class="fund-desc">Fonds actions européennes mid-caps, sélection de valeurs de croissance en Europe avec approche fondamentale.</p>
+            <p class="fund-desc">Fonds actions europeennes mid-caps, selection de valeurs de croissance en Europe avec approche fondamentale.</p>
             <div class="fund-metrics">
               <div class="fund-metric">
                 <span class="fund-metric-value fund-metric--up">+14,30%</span>
@@ -595,14 +638,14 @@
                 <span class="fund-metric-value">1,75%</span>
                 <span class="fund-metric-label">Frais courants</span>
               </div>
-              <div class="fund-metric">
-                <span class="fund-metric-value">43/100</span>
-                <span class="fund-metric-label">Score ESG</span>
-              </div>
             </div>
-            <div class="fund-bar">
-              <div class="fund-bar-label">Score ESG composite</div>
-              <div class="fund-bar-track"><div class="fund-bar-fill" style="--w: 43%"></div></div>
+            <div class="fund-esg-donut">
+              <svg viewBox="0 0 36 36" class="fund-donut-svg" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--glass-border)" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--gold)" stroke-width="2.5"
+                  stroke-dasharray="43, 100" stroke-dashoffset="25" stroke-linecap="round" class="fund-donut-fill"/>
+              </svg>
+              <span class="fund-donut-value">43</span>
             </div>
           </div>
 
@@ -610,25 +653,25 @@
       </div>
 
       <button class="carousel-btn carousel-btn--next" aria-label="Suivant">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
   </section>
 
   <!-- ===== SIMULATEUR D'INVESTISSEMENT ===== -->
-  <section class="section section--alt parallax-section" id="simulateur">
+  <section class="section section--alt parallax-section fade-in-up" id="simulateur" role="region" aria-label="Simulateur d'investissement">
     <div class="section-container">
       <span class="section-tag">Simulateur</span>
       <h2>Simulez vos investissements durables</h2>
-      <p class="section-lead">Entrez un montant, sélectionnez un ou plusieurs fonds, et visualisez l'évolution de votre capital net de frais sur différents horizons.</p>
+      <p class="section-lead">Entrez un montant, selectionnez un ou plusieurs fonds, et visualisez l'evolution de votre capital net de frais sur differents horizons.</p>
 
       <div class="sim-input-group">
-        <label class="sim-label" for="sim-capital">Montant à investir</label>
+        <label class="sim-label" for="sim-capital">Montant a investir</label>
         <div class="sim-input-wrapper">
           <input type="number" id="sim-capital" class="sim-input" placeholder="10 000" min="100" step="100" value="10000">
-          <span class="sim-input-suffix">€</span>
+          <span class="sim-input-suffix">&#8364;</span>
         </div>
-        <p class="sim-hint">Minimum 100 €. La répartition sera calculée selon votre profil.</p>
+        <p class="sim-hint">Minimum 100 &#8364;. La repartition sera calculee selon votre profil.</p>
       </div>
 
       <!-- Questionnaire wizard -->
@@ -641,29 +684,29 @@
         <div class="quiz-options" id="quiz-options"></div>
         <div class="quiz-nav">
           <button class="btn btn-secondary quiz-btn" id="quiz-prev" disabled>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-            Précédent
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+            Precedent
           </button>
           <button class="btn btn-primary quiz-btn" id="quiz-next" disabled>
             Suivant
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
         </div>
       </div>
 
       <div class="sim-results" id="sim-results" hidden>
         <h3 class="sim-results-title">Projections de rendement net</h3>
-        <p class="sim-results-subtitle">Capital investi : <strong id="sim-results-capital">10 000 €</strong> — <strong id="sim-results-count">15</strong> fonds — Profil : <strong id="sim-results-profile"></strong></p>
+        <p class="sim-results-subtitle">Capital investi : <strong id="sim-results-capital">10 000 &#8364;</strong> — <strong id="sim-results-count">15</strong> fonds — Profil : <strong id="sim-results-profile"></strong></p>
 
         <!-- Pie chart allocation -->
         <div class="pie-section">
           <div class="pie-section-header">
             <span class="section-tag">Allocation</span>
-            <h4 class="pie-section-title">Répartition de votre portefeuille</h4>
+            <h4 class="pie-section-title">Repartition de votre portefeuille</h4>
           </div>
           <div class="pie-container">
             <div class="pie-chart-wrap">
-              <svg class="pie-chart" id="pie-chart" viewBox="0 0 200 200"></svg>
+              <svg class="pie-chart" id="pie-chart" viewBox="0 0 200 200" aria-hidden="true"></svg>
               <div class="pie-center">
                 <span class="pie-center-value" id="pie-center-value">15</span>
                 <span class="pie-center-label">fonds</span>
@@ -690,7 +733,7 @@
         </div>
 
         <div class="sim-horizon-selector">
-          <span class="sim-horizon-label">Comparer à horizon :</span>
+          <span class="sim-horizon-label">Comparer a horizon :</span>
           <div class="sim-horizon-btns">
             <button class="sim-horizon-btn" data-horizon="1">1 an</button>
             <button class="sim-horizon-btn" data-horizon="3">3 ans</button>
@@ -703,187 +746,205 @@
 
         <div class="esg-panel" id="sim-esg-panel"></div>
 
-        <p class="sim-disclaimer">Les performances passées ne préjugent pas des performances futures. Simulation indicative basée sur les rendements annualisés historiques, nette de frais courants. Hors fiscalité et inflation. Scores ESG composites calculés à partir des notations MSCI ESG et Morningstar Sustainability.</p>
+        <p class="sim-disclaimer">Les performances passees ne prejudent pas des performances futures. Simulation indicative basee sur les rendements annualises historiques, nette de frais courants. Hors fiscalite et inflation. Scores ESG composites calcules a partir des notations MSCI ESG et Morningstar Sustainability.</p>
       </div>
     </div>
   </section>
 
   <!-- ===== METHODOLOGIE ===== -->
-  <section class="section parallax-section" id="methodologie">
+  <section class="section parallax-section fade-in-up" id="methodologie" role="region" aria-label="Methodologie">
     <div class="section-container">
       <span class="section-tag">Transparence</span>
       <h2>Comment fonctionne l'outil ?</h2>
-      <p class="section-lead">Chaque calcul est explicable. Voici le détail de la méthodologie utilisée pour les projections, la répartition et les scores ESG.</p>
+      <p class="section-lead">Chaque calcul est explicable. Voici le detail de la methodologie utilisee pour les projections, la repartition et les scores ESG.</p>
 
-      <div class="method-accordions">
-
-        <details class="method-block">
-          <summary class="method-summary">
-            <span class="method-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7h6m-6 4h6m-6 4h4M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
-            </span>
-            <span class="method-title">Projections de rendement</span>
-            <span class="method-chevron">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </span>
-          </summary>
-          <div class="method-content">
-            <p>Les projections utilisent la formule des <strong>intérêts composés nets de frais</strong> :</p>
-            <div class="method-formula">
-              V<sub>n</sub> = C &times; (1 + r &minus; f)<sup>n</sup>
-            </div>
-            <div class="method-legend">
-              <div class="method-legend-item"><strong>V<sub>n</sub></strong> = Valeur du capital après n années</div>
-              <div class="method-legend-item"><strong>C</strong> = Capital initial investi dans le fonds</div>
-              <div class="method-legend-item"><strong>r</strong> = Rendement annualisé historique du fonds</div>
-              <div class="method-legend-item"><strong>f</strong> = Frais courants annuels (TER)</div>
-              <div class="method-legend-item"><strong>n</strong> = Nombre d'années (1, 3, 5 ou 10)</div>
-            </div>
-            <p>Les rendements utilisés sont les <strong>rendements annualisés historiques</strong> publiés par les sociétés de gestion. La simulation est <strong>hors fiscalité et hors inflation</strong>. Les performances passées ne préjugent pas des performances futures.</p>
-          </div>
-        </details>
-
-        <details class="method-block">
-          <summary class="method-summary">
-            <span class="method-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
-            </span>
-            <span class="method-title">Algorithme de répartition</span>
-            <span class="method-chevron">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </span>
-          </summary>
-          <div class="method-content">
-            <p>L'allocation est calculée automatiquement à partir de votre <strong>profil de risque</strong> (1 à 5) et de votre <strong>priorité ESG</strong> (1 à 5), déterminés par le questionnaire.</p>
-            <h4>1. Score de risque par question</h4>
-            <p>Chaque réponse attribue un score de risque (<em>r</em>) et un score écologique (<em>e</em>). Les totaux sont normalisés sur une échelle de 1 à 5 :</p>
-            <div class="method-profiles">
-              <span class="method-profile-tag">1 — Prudent</span>
-              <span class="method-profile-tag">2 — Modéré</span>
-              <span class="method-profile-tag">3 — Équilibré</span>
-              <span class="method-profile-tag">4 — Croissance</span>
-              <span class="method-profile-tag">5 — Dynamique</span>
-            </div>
-            <h4>2. Poids de chaque fonds</h4>
-            <p>Chaque fonds a un <strong>niveau de risque intrinsèque</strong> (1 à 4). Le poids est calculé ainsi :</p>
-            <div class="method-formula">
-              w = max(0.05, 1 &minus; |risque<sub>fonds</sub> &minus; profil| &times; 0.25) + (score<sub>ESG</sub> / 100) &times; (priorité<sub>ESG</sub> / 5) &times; 0.5
-            </div>
-            <p>Les poids sont ensuite <strong>normalisés</strong> pour que la somme fasse 100 %, avec un minimum garanti de 3 % par fonds pour maintenir la diversification.</p>
-            <h4>Niveaux de risque des fonds</h4>
-            <div class="method-table-wrap">
-              <table class="method-table">
-                <thead><tr><th>Fonds</th><th>Niveau de risque</th><th>Type</th></tr></thead>
-                <tbody>
-                  <tr><td>BNP Paribas Green Bond</td><td>1 — Faible</td><td>Obligations vertes</td></tr>
-                  <tr><td>La Banque Postale Multi Actions</td><td>2 — Modéré</td><td>Mixte actions/obligations</td></tr>
-                  <tr><td>Amundi ISR Actions Europe</td><td>3 — Moyen</td><td>Actions Europe</td></tr>
-                  <tr><td>Mirova Europe Env. Equity</td><td>3 — Moyen</td><td>Actions impact</td></tr>
-                  <tr><td>Lyxor MSCI World ESG Leaders</td><td>4 — Élevé</td><td>ETF mondial</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </details>
-
-        <details class="method-block">
-          <summary class="method-summary">
-            <span class="method-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-            </span>
-            <span class="method-title">Scores ESG composites</span>
-            <span class="method-chevron">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </span>
-          </summary>
-          <div class="method-content">
-            <p>Le score ESG composite (sur 100) de chaque fonds est construit à partir de <strong>trois indicateurs indépendants</strong> :</p>
-            <div class="method-table-wrap">
-              <table class="method-table">
-                <thead><tr><th>Indicateur</th><th>Source</th><th>Échelle</th></tr></thead>
-                <tbody>
-                  <tr><td>Notation MSCI ESG</td><td>MSCI ESG Ratings</td><td>CCC à AAA (7 niveaux)</td></tr>
-                  <tr><td>Sustainability Rating</td><td>Morningstar Sustainalytics</td><td>1 à 5 globes</td></tr>
-                  <tr><td>Classification SFDR</td><td>Règlement UE 2019/2088</td><td>Article 6, 8 ou 9</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <p>Le <strong>score ESG moyen du portefeuille</strong> est la moyenne pondérée des scores de chaque fonds, pondérée par l'allocation en pourcentage.</p>
-            <div class="method-table-wrap">
-              <table class="method-table">
-                <thead><tr><th>Fonds</th><th>MSCI</th><th>Morningstar</th><th>SFDR</th><th>Score</th></tr></thead>
-                <tbody>
-                  <tr><td>Amundi ISR Actions Europe</td><td>AA</td><td>4/5</td><td>Art. 8</td><td>83/100</td></tr>
-                  <tr><td>BNP Paribas Green Bond</td><td>A</td><td>5/5</td><td>Art. 9</td><td>86/100</td></tr>
-                  <tr><td>Lyxor MSCI World ESG Leaders</td><td>AAA</td><td>4/5</td><td>Art. 8</td><td>90/100</td></tr>
-                  <tr><td>Mirova Europe Env. Equity</td><td>AAA</td><td>5/5</td><td>Art. 9</td><td>100/100</td></tr>
-                  <tr><td>La Banque Postale Multi Actions</td><td>AA</td><td>4/5</td><td>Art. 9</td><td>83/100</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </details>
-
-        <details class="method-block">
-          <summary class="method-summary">
-            <span class="method-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-            </span>
-            <span class="method-title">Sources et données</span>
-            <span class="method-chevron">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </span>
-          </summary>
-          <div class="method-content">
-            <h4>Données financières</h4>
-            <ul class="method-sources">
-              <li><strong>Rendements et frais</strong> — Documents d'information clé (DIC/DICI) et rapports annuels publiés par les sociétés de gestion (Amundi, BNP Paribas AM, Amundi/Lyxor, Mirova, La Banque Postale AM). Données consultées en janvier 2025.</li>
-              <li><strong>Rendements annualisés</strong> — Performances nettes de frais de gestion, brutes de fiscalité, calculées sur les horizons 1, 3, 5 et 10 ans lorsque disponibles.</li>
-            </ul>
-            <h4>Données ESG</h4>
-            <ul class="method-sources">
-              <li><strong>MSCI ESG Ratings</strong> — Notations ESG des fonds accessibles via MSCI Fund ESG Quality Scores. Échelle : CCC, B, BB, BBB, A, AA, AAA.</li>
-              <li><strong>Morningstar Sustainability Rating</strong> — Globes de durabilité attribués par Morningstar/Sustainalytics, basés sur le risque ESG non géré des positions du fonds.</li>
-              <li><strong>Classification SFDR</strong> — Règlement européen Sustainable Finance Disclosure Regulation (UE 2019/2088). Article 8 : promotion de caractéristiques ESG. Article 9 : investissement durable comme objectif.</li>
-            </ul>
-            <h4>Statistiques citées</h4>
-            <ul class="method-sources">
-              <li><strong>Sondage AMF/OpinionWay 2023</strong> — « Les Français et les placements responsables », enquête menée auprès de 1 013 personnes en novembre 2023 pour l'Autorité des marchés financiers.</li>
-            </ul>
-            <h4>Limites et avertissements</h4>
-            <ul class="method-sources">
-              <li>Les performances passées ne préjugent pas des performances futures.</li>
-              <li>Les projections ne tiennent pas compte de la fiscalité, de l'inflation, ni des éventuels frais d'entrée/sortie.</li>
-              <li>Les scores ESG composites sont une simplification pédagogique et ne constituent pas un conseil en investissement.</li>
-              <li>Cet outil a une vocation <strong>pédagogique</strong> et ne remplace pas l'avis d'un conseiller financier agréé.</li>
-            </ul>
-          </div>
-        </details>
-
+      <div class="method-tabs">
+        <button class="method-tab method-tab--active" data-tab="projections">Projections</button>
+        <button class="method-tab" data-tab="allocation">Allocation</button>
+        <button class="method-tab" data-tab="esg">Scores ESG</button>
+        <button class="method-tab" data-tab="sources">Sources</button>
+        <div class="method-tab-indicator"></div>
       </div>
+
+      <!-- Panel 1: Projections -->
+      <div class="method-panel method-panel--active" data-panel="projections">
+        <p>Les projections utilisent la formule des <strong>interets composes nets de frais</strong> :</p>
+        <div class="method-formula">
+          V<sub>n</sub> = C &times; (1 + r &minus; f)<sup>n</sup>
+        </div>
+        <div class="method-legend">
+          <div class="method-legend-item"><strong>V<sub>n</sub></strong> = Valeur du capital apres n annees</div>
+          <div class="method-legend-item"><strong>C</strong> = Capital initial investi dans le fonds</div>
+          <div class="method-legend-item"><strong>r</strong> = Rendement annualise historique du fonds</div>
+          <div class="method-legend-item"><strong>f</strong> = Frais courants annuels (TER)</div>
+          <div class="method-legend-item"><strong>n</strong> = Nombre d'annees (1, 3, 5 ou 10)</div>
+        </div>
+        <p>Les rendements utilises sont les <strong>rendements annualises historiques</strong> publies par les societes de gestion. La simulation est <strong>hors fiscalite et hors inflation</strong>. Les performances passees ne prejudent pas des performances futures.</p>
+      </div>
+
+      <!-- Panel 2: Allocation -->
+      <div class="method-panel" data-panel="allocation">
+        <p>L'allocation est calculee automatiquement a partir de votre <strong>profil de risque</strong> (1 a 5) et de votre <strong>priorite ESG</strong> (1 a 5), determines par le questionnaire.</p>
+        <h4>1. Score de risque par question</h4>
+        <p>Chaque reponse attribue un score de risque (<em>r</em>) et un score ecologique (<em>e</em>). Les totaux sont normalises sur une echelle de 1 a 5 :</p>
+        <div class="method-profiles">
+          <span class="method-profile-tag">1 — Prudent</span>
+          <span class="method-profile-tag">2 — Modere</span>
+          <span class="method-profile-tag">3 — Equilibre</span>
+          <span class="method-profile-tag">4 — Croissance</span>
+          <span class="method-profile-tag">5 — Dynamique</span>
+        </div>
+        <h4>2. Poids de chaque fonds</h4>
+        <p>Chaque fonds a un <strong>niveau de risque intrinseque</strong> (1 a 4). Le poids est calcule ainsi :</p>
+        <div class="method-formula">
+          w = max(0.05, 1 &minus; |risque<sub>fonds</sub> &minus; profil| &times; 0.25) + (score<sub>ESG</sub> / 100) &times; (priorite<sub>ESG</sub> / 5) &times; 0.5
+        </div>
+        <p>Les poids sont ensuite <strong>normalises</strong> pour que la somme fasse 100 %, avec un minimum garanti de 3 % par fonds pour maintenir la diversification.</p>
+        <h4>Niveaux de risque des fonds</h4>
+        <div class="method-table-wrap">
+          <table class="method-table">
+            <thead><tr><th>Fonds</th><th>Niveau de risque</th><th>Type</th></tr></thead>
+            <tbody>
+              <tr><td>BNP Paribas Green Bond</td><td>1 — Faible</td><td>Obligations vertes</td></tr>
+              <tr><td>La Banque Postale Multi Actions</td><td>2 — Modere</td><td>Mixte actions/obligations</td></tr>
+              <tr><td>Amundi ISR Actions Europe</td><td>3 — Moyen</td><td>Actions Europe</td></tr>
+              <tr><td>Mirova Europe Env. Equity</td><td>3 — Moyen</td><td>Actions impact</td></tr>
+              <tr><td>Lyxor MSCI World ESG Leaders</td><td>4 — Eleve</td><td>ETF mondial</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Panel 3: Scores ESG -->
+      <div class="method-panel" data-panel="esg">
+        <p>Le score ESG composite (sur 100) de chaque fonds est construit a partir de <strong>trois indicateurs independants</strong> :</p>
+        <div class="method-table-wrap">
+          <table class="method-table">
+            <thead><tr><th>Indicateur</th><th>Source</th><th>Echelle</th></tr></thead>
+            <tbody>
+              <tr><td>Notation MSCI ESG</td><td>MSCI ESG Ratings</td><td>CCC a AAA (7 niveaux)</td></tr>
+              <tr><td>Sustainability Rating</td><td>Morningstar Sustainalytics</td><td>1 a 5 globes</td></tr>
+              <tr><td>Classification SFDR</td><td>Reglement UE 2019/2088</td><td>Article 6, 8 ou 9</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Le <strong>score ESG moyen du portefeuille</strong> est la moyenne ponderee des scores de chaque fonds, ponderee par l'allocation en pourcentage.</p>
+        <div class="method-table-wrap">
+          <table class="method-table">
+            <thead><tr><th>Fonds</th><th>MSCI</th><th>Morningstar</th><th>SFDR</th><th>Score</th></tr></thead>
+            <tbody>
+              <tr><td>Amundi ISR Actions Europe</td><td>AA</td><td>4/5</td><td>Art. 8</td><td>83/100</td></tr>
+              <tr><td>BNP Paribas Green Bond</td><td>A</td><td>5/5</td><td>Art. 9</td><td>86/100</td></tr>
+              <tr><td>Lyxor MSCI World ESG Leaders</td><td>AAA</td><td>4/5</td><td>Art. 8</td><td>90/100</td></tr>
+              <tr><td>Mirova Europe Env. Equity</td><td>AAA</td><td>5/5</td><td>Art. 9</td><td>100/100</td></tr>
+              <tr><td>La Banque Postale Multi Actions</td><td>AA</td><td>4/5</td><td>Art. 9</td><td>83/100</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Panel 4: Sources -->
+      <div class="method-panel" data-panel="sources">
+        <h4>Donnees financieres</h4>
+        <ul class="method-sources">
+          <li><strong>Rendements et frais</strong> — Documents d'information cle (DIC/DICI) et rapports annuels publies par les societes de gestion (Amundi, BNP Paribas AM, Amundi/Lyxor, Mirova, La Banque Postale AM). Donnees consultees en janvier 2025.</li>
+          <li><strong>Rendements annualises</strong> — Performances nettes de frais de gestion, brutes de fiscalite, calculees sur les horizons 1, 3, 5 et 10 ans lorsque disponibles.</li>
+        </ul>
+        <h4>Donnees ESG</h4>
+        <ul class="method-sources">
+          <li><strong>MSCI ESG Ratings</strong> — Notations ESG des fonds accessibles via MSCI Fund ESG Quality Scores. Echelle : CCC, B, BB, BBB, A, AA, AAA.</li>
+          <li><strong>Morningstar Sustainability Rating</strong> — Globes de durabilite attribues par Morningstar/Sustainalytics, bases sur le risque ESG non gere des positions du fonds.</li>
+          <li><strong>Classification SFDR</strong> — Reglement europeen Sustainable Finance Disclosure Regulation (UE 2019/2088). Article 8 : promotion de caracteristiques ESG. Article 9 : investissement durable comme objectif.</li>
+        </ul>
+        <h4>Statistiques citees</h4>
+        <ul class="method-sources">
+          <li><strong>Sondage AMF/OpinionWay 2023</strong> — &laquo; Les Francais et les placements responsables &raquo;, enquete menee aupres de 1 013 personnes en novembre 2023 pour l'Autorite des marches financiers.</li>
+        </ul>
+        <h4>Limites et avertissements</h4>
+        <ul class="method-sources">
+          <li>Les performances passees ne prejudent pas des performances futures.</li>
+          <li>Les projections ne tiennent pas compte de la fiscalite, de l'inflation, ni des eventuels frais d'entree/sortie.</li>
+          <li>Les scores ESG composites sont une simplification pedagogique et ne constituent pas un conseil en investissement.</li>
+          <li>Cet outil a une vocation <strong>pedagogique</strong> et ne remplace pas l'avis d'un conseiller financier agree.</li>
+        </ul>
+      </div>
+
     </div>
   </section>
 
   <!-- ===== TEAM ===== -->
-  <section class="section parallax-section" id="equipe">
+  <section class="section parallax-section fade-in-up" id="equipe" role="region" aria-label="Equipe">
     <div class="section-container">
-      <span class="section-tag">L'équipe</span>
+      <span class="section-tag">L'equipe</span>
       <h2>Projet Innov — IMT Atlantique</h2>
-      <p class="section-lead">Quatre étudiants ingénieurs engagés dans une démarche d'innovation centrée sur l'utilisateur, sobre et critique.</p>
+      <p class="section-lead">Quatre etudiants ingenieurs engages dans une demarche d'innovation centree sur l'utilisateur, sobre et critique.</p>
       <div class="team-grid">
-        <div class="team-member">Omar Amine</div>
-        <div class="team-member">Marion Boulin</div>
-        <div class="team-member">Léopold Chambriard</div>
-        <div class="team-member">Amaury Roubertou</div>
+
+        <div class="team-member">
+          <div class="team-avatar" style="--avatar-hue: 160">
+            <span class="team-initials">OA</span>
+          </div>
+          <div class="team-info">
+            <h4 class="team-name">Omar Amine</h4>
+            <p class="team-role">Ingenieur</p>
+          </div>
+        </div>
+
+        <div class="team-member">
+          <div class="team-avatar" style="--avatar-hue: 220">
+            <span class="team-initials">MB</span>
+          </div>
+          <div class="team-info">
+            <h4 class="team-name">Marion Boulin</h4>
+            <p class="team-role">Ingenieure</p>
+          </div>
+        </div>
+
+        <div class="team-member">
+          <div class="team-avatar" style="--avatar-hue: 280">
+            <span class="team-initials">LC</span>
+          </div>
+          <div class="team-info">
+            <h4 class="team-name">Leopold Chambriard</h4>
+            <p class="team-role">Ingenieur</p>
+          </div>
+        </div>
+
+        <div class="team-member">
+          <div class="team-avatar" style="--avatar-hue: 30">
+            <span class="team-initials">AR</span>
+          </div>
+          <div class="team-info">
+            <h4 class="team-name">Amaury Roubertou</h4>
+            <p class="team-role">Ingenieur</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- ===== FOOTER ===== -->
-  <footer class="footer">
+  <footer class="footer" role="contentinfo">
     <div class="footer-inner">
-      <p>Projet Innov — IMT Atlantique, Brest &middot; Février 2026</p>
-      <p class="footer-sub">Conçu dans une démarche de sobriété numérique</p>
+      <div class="footer-top">
+        <div class="footer-brand">
+          <svg class="footer-logo" width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect width="32" height="32" rx="8" fill="var(--accent, #00C853)"/>
+            <path d="M16 6 L16 18 M10 14 L16 18 L22 14" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="16" cy="24" r="2" fill="var(--bg-primary, #0a0a0a)"/>
+          </svg>
+          <span class="footer-brand-name">TransInvestment</span>
+        </div>
+        <div class="footer-links">
+          <a href="#outil">Outil</a>
+          <a href="#methodologie">Methodologie</a>
+          <a href="#equipe">Equipe</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 TransInvestment — Projet IMT Atlantique. Outil pedagogique, ne constitue pas un conseil en investissement.</p>
+      </div>
     </div>
   </footer>
 
