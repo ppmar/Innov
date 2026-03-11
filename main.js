@@ -927,49 +927,53 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     var raf = 0;
+    var lastMx = -9999, lastMy = -9999;
+
+    function updateCards(mx, my) {
+      cards.forEach(function(card) {
+        var rect = card.getBoundingClientRect();
+        var cx = rect.left + rect.width * 0.5;
+        var cy = rect.top + rect.height * 0.5;
+
+        // Inactive zone check
+        var dist = Math.hypot(mx - cx, my - cy);
+        var inactiveR = 0.5 * Math.min(rect.width, rect.height) * inactiveZone;
+        if (dist < inactiveR) {
+          card.style.setProperty('--glow-active', '0');
+          return;
+        }
+
+        // Proximity check
+        var isActive =
+          mx > rect.left - proximity &&
+          mx < rect.right + proximity &&
+          my > rect.top - proximity &&
+          my < rect.bottom + proximity;
+
+        card.style.setProperty('--glow-active', isActive ? '1' : '0');
+        if (!isActive) return;
+
+        // Compute angle from center to pointer
+        var angle = (180 * Math.atan2(my - cy, mx - cx)) / Math.PI + 90;
+        card.style.setProperty('--glow-start', String(angle));
+      });
+    }
+
     document.body.addEventListener('pointermove', function(e) {
+      lastMx = e.clientX;
+      lastMy = e.clientY;
       if (raf) cancelAnimationFrame(raf);
       raf = requestAnimationFrame(function() {
-        var mx = e.clientX;
-        var my = e.clientY;
-
-        cards.forEach(function(card) {
-          var rect = card.getBoundingClientRect();
-          var cx = rect.left + rect.width * 0.5;
-          var cy = rect.top + rect.height * 0.5;
-
-          // Inactive zone check
-          var dist = Math.hypot(mx - cx, my - cy);
-          var inactiveR = 0.5 * Math.min(rect.width, rect.height) * inactiveZone;
-          if (dist < inactiveR) {
-            card.style.setProperty('--glow-active', '0');
-            return;
-          }
-
-          // Proximity check
-          var isActive =
-            mx > rect.left - proximity &&
-            mx < rect.right + proximity &&
-            my > rect.top - proximity &&
-            my < rect.bottom + proximity;
-
-          card.style.setProperty('--glow-active', isActive ? '1' : '0');
-          if (!isActive) return;
-
-          // Compute angle from center to pointer
-          var angle = (180 * Math.atan2(my - cy, mx - cx)) / Math.PI + 90;
-          card.style.setProperty('--glow-start', String(angle));
-        });
+        updateCards(lastMx, lastMy);
       });
     }, { passive: true });
 
-    // Also update on scroll (pointer may not move but cards shift)
+    // Re-evaluate on scroll (cards shift but pointer stays)
     window.addEventListener('scroll', function() {
+      if (lastMx < -999) return;
       if (raf) cancelAnimationFrame(raf);
       raf = requestAnimationFrame(function() {
-        cards.forEach(function(card) {
-          // Re-evaluate with last known pointer — rely on CSS current values
-        });
+        updateCards(lastMx, lastMy);
       });
     }, { passive: true });
   })();

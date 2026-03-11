@@ -1073,37 +1073,39 @@ ul, ol {
   z-index: 1;
 }
 
-/* The actual border glow — conic mask reveals only near the angle */
+/* Border glow — conic mask + subtract compositing for border-only ring */
 .spotlight-card > .spot-glow::after {
   content: '';
   position: absolute;
-  inset: calc(-1 * var(--glow-border-width));
+  inset: 0;
   border: var(--glow-border-width) solid transparent;
   border-radius: inherit;
   background: var(--glow-gradient);
-  background-attachment: fixed;
   opacity: var(--glow-active);
   transition: opacity 0.3s ease;
-  mask-clip: padding-box, border-box;
-  -webkit-mask-clip: padding-box, border-box;
-  mask-composite: intersect;
-  -webkit-mask-composite: source-in;
+  /* L1 (source): conic angular reveal on border-box
+     L2 (dest):   opaque on padding-box
+     subtract = show source WHERE dest is transparent = border area only */
   mask-image:
-    linear-gradient(#0000, #0000),
     conic-gradient(
       from calc((var(--glow-start) - var(--glow-spread)) * 1deg),
       #00000000 0deg,
       #fff,
       #00000000 calc(var(--glow-spread) * 2deg)
-    );
+    ),
+    linear-gradient(#000, #000);
   -webkit-mask-image:
-    linear-gradient(#0000, #0000),
     conic-gradient(
       from calc((var(--glow-start) - var(--glow-spread)) * 1deg),
       #00000000 0deg,
       #fff,
       #00000000 calc(var(--glow-spread) * 2deg)
-    );
+    ),
+    linear-gradient(#000, #000);
+  mask-clip: border-box, padding-box;
+  -webkit-mask-clip: border-box, padding-box;
+  mask-composite: subtract;
+  -webkit-mask-composite: source-out;
 }
 
 /* ===== LIQUID GLASS (shared across all cards) ===== */
