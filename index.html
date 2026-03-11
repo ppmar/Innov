@@ -163,10 +163,15 @@
   <section class="section parallax-section fade-in-up" id="problematique" role="region" aria-label="Problematique">
     <div class="section-container">
       <span class="section-tag">Le constat</span>
-      <h2>Au-dela du Greenwashing : l'exigence de la preuve.</h2>
+      <div class="sparkles-title-wrap">
+        <canvas class="sparkles-canvas" id="sparkles-canvas" aria-hidden="true"></canvas>
+        <h2 class="sparkles-title">Au-dela du Greenwashing : l'exigence de la preuve.</h2>
+        <div class="sparkles-glow"></div>
+      </div>
       <p class="section-lead">Le marche de l'investissement responsable souffre d'une opacite critique. Nous transformons des donnees complexes en indicateurs de decision actionnables, pour que chaque euro investi devienne un levier d'impact verifiable.</p>
 
-      <blockquote class="problematique">
+      <blockquote class="problematique liquid-glass-block">
+        <svg class="liquid-glass-svg" aria-hidden="true"><defs><filter id="liquid-glass" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.015 0.015" numOctaves="2" seed="3" result="turbulence"><animate attributeName="seed" values="1;5;1" dur="8s" repeatCount="indefinite"/></feTurbulence><feGaussianBlur in="turbulence" stdDeviation="3" result="blurredNoise"/><feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="18" xChannelSelector="R" yChannelSelector="B" result="displaced"/><feGaussianBlur in="displaced" stdDeviation="0.8" result="finalBlur"/><feComposite in="finalBlur" in2="finalBlur" operator="over"/></filter></defs></svg>
         Comment permettre aux investisseurs d'aligner leur capital sur leurs valeurs, sans compromis sur le rendement, grace a une plateforme d'analyse independante et rigoureuse ?
       </blockquote>
 

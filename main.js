@@ -902,6 +902,87 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
+  /* ---- Sparkles Canvas ---- */
+  const sparklesCanvas = document.getElementById('sparkles-canvas');
+  if (sparklesCanvas) {
+    const ctx = sparklesCanvas.getContext('2d');
+    let particles = [];
+    let sparklesAnimId = null;
+
+    function resizeSparkles() {
+      const rect = sparklesCanvas.parentElement.getBoundingClientRect();
+      sparklesCanvas.width = rect.width;
+      sparklesCanvas.height = rect.height;
+    }
+
+    function createParticle() {
+      return {
+        x: Math.random() * sparklesCanvas.width,
+        y: Math.random() * sparklesCanvas.height,
+        size: Math.random() * 2 + 0.5,
+        speedX: (Math.random() - 0.5) * 0.3,
+        speedY: (Math.random() - 0.5) * 0.3,
+        opacity: Math.random(),
+        fadeSpeed: 0.005 + Math.random() * 0.015,
+        fadeDir: 1
+      };
+    }
+
+    function initSparkles() {
+      resizeSparkles();
+      particles = [];
+      const density = Math.min(120, Math.floor(sparklesCanvas.width * sparklesCanvas.height / 3000));
+      for (let i = 0; i < density; i++) {
+        particles.push(createParticle());
+      }
+    }
+
+    function drawSparkles() {
+      ctx.clearRect(0, 0, sparklesCanvas.width, sparklesCanvas.height);
+      particles.forEach(p => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+
+        p.opacity += p.fadeSpeed * p.fadeDir;
+        if (p.opacity >= 1) { p.opacity = 1; p.fadeDir = -1; }
+        if (p.opacity <= 0.05) { p.opacity = 0.05; p.fadeDir = 1; }
+
+        // Wrap around
+        if (p.x < 0) p.x = sparklesCanvas.width;
+        if (p.x > sparklesCanvas.width) p.x = 0;
+        if (p.y < 0) p.y = sparklesCanvas.height;
+        if (p.y > sparklesCanvas.height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, ' + p.opacity + ')';
+        ctx.fill();
+      });
+      sparklesAnimId = requestAnimationFrame(drawSparkles);
+    }
+
+    // Only run when visible
+    const sparklesObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          initSparkles();
+          drawSparkles();
+        } else {
+          if (sparklesAnimId) {
+            cancelAnimationFrame(sparklesAnimId);
+            sparklesAnimId = null;
+          }
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sparklesObserver.observe(sparklesCanvas.parentElement);
+    window.addEventListener('resize', () => {
+      if (sparklesAnimId) resizeSparkles();
+    });
+  }
+
+
   /* ---- Nav shadow on scroll ---- */
   const nav = document.querySelector('.nav');
   window.addEventListener('scroll', () => {
