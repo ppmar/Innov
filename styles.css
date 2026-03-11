@@ -1041,34 +1041,54 @@ ul, ol {
   z-index: 0;
 }
 
-/* ===== SPOTLIGHT CARD GLOW (mouse-tracking radial border) ===== */
+/* ===== SPOTLIGHT CARD (data-glow style) ===== */
 
 .spotlight-card {
-  --spot-x: 0;
-  --spot-y: 0;
-  --spot-hue: 210;
-  --spot-border: 2px;
-  --spot-size: 200px;
+  --glow-x: 0;
+  --glow-y: 0;
+  --glow-xp: 0;
+  --glow-base: 220;
+  --glow-spread: 200;
+  --glow-radius: 14;
+  --glow-border: 3;
+  --glow-size: 200;
+  --glow-outer: 1;
+  --glow-border-size: calc(var(--glow-border) * 1px);
+  --glow-spotlight-size: calc(var(--glow-size) * 1px);
+  --glow-hue: calc(var(--glow-base) + (var(--glow-xp) * var(--glow-spread)));
   position: relative;
+  overflow: visible !important;
   touch-action: none;
+  /* Radial gradient background on the card itself */
+  background-image: radial-gradient(
+    var(--glow-spotlight-size) var(--glow-spotlight-size)
+    at calc(var(--glow-x) * 1px) calc(var(--glow-y) * 1px),
+    hsl(var(--glow-hue) 100% 70% / var(--glow-bg-opacity, 0)) ,
+    transparent
+  );
+  background-size: calc(100% + (2 * var(--glow-border-size))) calc(100% + (2 * var(--glow-border-size)));
+  background-position: 50% 50%;
+  background-attachment: fixed;
+  border: var(--glow-border-size) solid hsl(0 0% 60% / 0.12);
 }
 
-/* Colored border glow */
+/* Colored border glow — follows pointer */
 .spotlight-card::before {
   content: '';
   pointer-events: none;
   position: absolute;
-  inset: calc(var(--spot-border) * -1);
-  border: var(--spot-border) solid transparent;
+  inset: calc(var(--glow-border-size) * -1);
+  border: var(--glow-border-size) solid transparent;
   border-radius: inherit;
   background-image: radial-gradient(
-    calc(var(--spot-size) * 0.75) calc(var(--spot-size) * 0.75)
-    at calc(var(--spot-x) * 1px) calc(var(--spot-y) * 1px),
-    hsl(var(--spot-hue) 100% 50% / var(--spot-opacity, 0)),
+    calc(var(--glow-spotlight-size) * 0.75) calc(var(--glow-spotlight-size) * 0.75)
+    at calc(var(--glow-x) * 1px) calc(var(--glow-y) * 1px),
+    hsl(var(--glow-hue) 100% 50% / var(--glow-border-opacity, 0)),
     transparent 100%
   );
   background-attachment: fixed;
-  background-size: calc(100% + var(--spot-border) * 2) calc(100% + var(--spot-border) * 2);
+  background-size: calc(100% + (2 * var(--glow-border-size))) calc(100% + (2 * var(--glow-border-size)));
+  background-repeat: no-repeat;
   background-position: 50% 50%;
   mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
   mask-clip: padding-box, border-box;
@@ -1077,25 +1097,25 @@ ul, ol {
   -webkit-mask-clip: padding-box, border-box;
   -webkit-mask-composite: source-in;
   filter: brightness(2);
-  transition: --spot-opacity 0.3s;
 }
 
-/* White highlight center */
+/* White center highlight on border */
 .spotlight-card::after {
   content: '';
   pointer-events: none;
   position: absolute;
-  inset: calc(var(--spot-border) * -1);
-  border: var(--spot-border) solid transparent;
+  inset: calc(var(--glow-border-size) * -1);
+  border: var(--glow-border-size) solid transparent;
   border-radius: inherit;
   background-image: radial-gradient(
-    calc(var(--spot-size) * 0.5) calc(var(--spot-size) * 0.5)
-    at calc(var(--spot-x) * 1px) calc(var(--spot-y) * 1px),
-    hsl(0 100% 100% / var(--spot-opacity, 0)),
+    calc(var(--glow-spotlight-size) * 0.5) calc(var(--glow-spotlight-size) * 0.5)
+    at calc(var(--glow-x) * 1px) calc(var(--glow-y) * 1px),
+    hsl(0 100% 100% / var(--glow-light-opacity, 0)),
     transparent 100%
   );
   background-attachment: fixed;
-  background-size: calc(100% + var(--spot-border) * 2) calc(100% + var(--spot-border) * 2);
+  background-size: calc(100% + (2 * var(--glow-border-size))) calc(100% + (2 * var(--glow-border-size)));
+  background-repeat: no-repeat;
   background-position: 50% 50%;
   mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
   mask-clip: padding-box, border-box;
@@ -1103,31 +1123,45 @@ ul, ol {
   -webkit-mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
   -webkit-mask-clip: padding-box, border-box;
   -webkit-mask-composite: source-in;
-  transition: --spot-opacity 0.3s;
 }
 
-/* Override overflow for spotlight pseudo-elements */
-.spotlight-card {
-  overflow: visible !important;
-}
-
-/* Outer blur glow halo */
+/* Outer blur halo */
 .spotlight-card > .spot-glow {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
   will-change: filter;
-  opacity: var(--spot-opacity, 0);
-  filter: blur(20px);
+  opacity: var(--glow-outer);
+  border-radius: inherit;
+  border-width: calc(var(--glow-border-size) * 20);
+  filter: blur(calc(var(--glow-border-size) * 10));
+  background: none;
+  pointer-events: none;
+  border: none;
+}
+
+.spotlight-card > .spot-glow::before {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border: 10px solid transparent;
+  border-radius: inherit;
   background-image: radial-gradient(
-    calc(var(--spot-size) * 0.75) calc(var(--spot-size) * 0.75)
-    at calc(var(--spot-x) * 1px) calc(var(--spot-y) * 1px),
-    hsl(var(--spot-hue) 100% 50% / 0.4),
+    calc(var(--glow-spotlight-size) * 0.75) calc(var(--glow-spotlight-size) * 0.75)
+    at calc(var(--glow-x) * 1px) calc(var(--glow-y) * 1px),
+    hsl(var(--glow-hue) 100% 50% / var(--glow-border-opacity, 0)),
     transparent 100%
   );
   background-attachment: fixed;
-  transition: opacity 0.3s;
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+  -webkit-mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
+  -webkit-mask-clip: padding-box, border-box;
+  -webkit-mask-composite: source-in;
+  filter: brightness(2);
 }
 
 /* ===== FEATURES GRID ===== */

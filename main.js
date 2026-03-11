@@ -902,12 +902,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  /* ---- Spotlight Card Glow (all cards) ---- */
+  /* ---- Spotlight Card Glow (data-glow style) ---- */
   (function initSpotlightCards() {
     const cards = document.querySelectorAll('.spotlight-card');
     if (!cards.length) return;
 
-    // Inject spot-glow div if missing
+    // Inject spot-glow child if missing (outer blur halo)
     cards.forEach(card => {
       if (!card.querySelector('.spot-glow')) {
         const glow = document.createElement('div');
@@ -917,28 +917,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    let rafId = 0;
-    document.body.addEventListener('pointermove', (e) => {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        const mx = e.clientX;
-        const my = e.clientY;
-        // Compute hue based on horizontal position
-        const hue = 210 + (mx / window.innerWidth) * 200;
+    // Sync pointer position to all cards (like React syncPointer)
+    document.addEventListener('pointermove', (e) => {
+      const x = e.clientX;
+      const y = e.clientY;
+      const xp = (x / window.innerWidth).toFixed(2);
 
-        cards.forEach(card => {
-          card.style.setProperty('--spot-x', String(mx));
-          card.style.setProperty('--spot-y', String(my));
-          card.style.setProperty('--spot-hue', String(hue));
-          card.style.setProperty('--spot-opacity', '1');
-        });
+      cards.forEach(card => {
+        card.style.setProperty('--glow-x', x.toFixed(2));
+        card.style.setProperty('--glow-y', y.toFixed(2));
+        card.style.setProperty('--glow-xp', xp);
+        card.style.setProperty('--glow-bg-opacity', '0.1');
+        card.style.setProperty('--glow-border-opacity', '1');
+        card.style.setProperty('--glow-light-opacity', '1');
       });
     }, { passive: true });
 
-    // Hide glow when pointer leaves window
+    // Hide glow when pointer leaves
     document.body.addEventListener('pointerleave', () => {
       cards.forEach(card => {
-        card.style.setProperty('--spot-opacity', '0');
+        card.style.setProperty('--glow-bg-opacity', '0');
+        card.style.setProperty('--glow-border-opacity', '0');
+        card.style.setProperty('--glow-light-opacity', '0');
       });
     });
   })();
