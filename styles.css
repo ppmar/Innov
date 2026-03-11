@@ -404,10 +404,10 @@ ul, ol {
 /* Hero subtitle */
 .hero-subtitle {
   font-size: var(--text-body-lg);
-  color: var(--text-secondary);
-  max-width: 520px;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 560px;
   margin: 0 auto var(--space-7);
-  font-weight: 300;
+  font-weight: 400;
   line-height: var(--leading-relaxed);
 }
 
