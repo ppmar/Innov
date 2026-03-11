@@ -976,8 +976,12 @@ document.addEventListener('DOMContentLoaded', () => {
       sparklesAnimId = requestAnimationFrame(drawSparkles);
     }
 
-    // Drive expansion from scroll position
+    const isMobile = () => window.innerWidth <= 768;
+
+    // Drive expansion from scroll position (desktop only)
     function updateExpansion() {
+      if (isMobile()) return;
+
       const rect = expandScroll.getBoundingClientRect();
       const scrollRange = expandScroll.offsetHeight - window.innerHeight;
       const progress = Math.min(Math.max(-rect.top / scrollRange, 0), 1);
@@ -1027,8 +1031,17 @@ document.addEventListener('DOMContentLoaded', () => {
     expandObserver.observe(expandScroll);
 
     window.addEventListener('scroll', updateExpansion, { passive: true });
-    window.addEventListener('resize', () => { resizeSparkles(); updateExpansion(); });
-    updateExpansion();
+    window.addEventListener('resize', () => {
+      if (isMobile()) {
+        // Clear inline styles so CSS takes over
+        expandViewport.style.width = '';
+        expandViewport.style.height = '';
+        expandViewport.style.borderRadius = '';
+      }
+      resizeSparkles();
+      updateExpansion();
+    });
+    if (!isMobile()) updateExpansion();
   }
 
 

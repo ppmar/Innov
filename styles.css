@@ -914,6 +914,36 @@ ul, ol {
   transform: translateY(0);
 }
 
+/* Mobile: disable expansion effect, show section normally */
+@media (max-width: 768px) {
+  .expand-scroll {
+    height: auto;
+  }
+  .expand-sticky {
+    position: relative;
+    height: auto;
+    padding: 80px 0;
+  }
+  .expand-viewport {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 0 !important;
+    background: transparent;
+  }
+  .expand-viewport::after {
+    display: none;
+  }
+  .expand-content {
+    opacity: 1;
+    transform: none;
+    padding: 0 20px;
+  }
+}
+
 /* Sparkles canvas fills the viewport */
 .sparkles-canvas {
   position: absolute;
