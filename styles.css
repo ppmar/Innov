@@ -836,10 +836,13 @@ ul, ol {
   font-size: var(--text-body-lg);
   color: var(--text-secondary);
   max-width: 600px;
-  margin-inline: auto;
   line-height: var(--leading-relaxed);
   font-weight: 300;
   margin-bottom: 56px;
+}
+
+.expand-content .section-lead {
+  margin-inline: auto;
 }
 
 
