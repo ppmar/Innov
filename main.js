@@ -1,4 +1,4 @@
-/* TransInvestment — JS (sobriete numerique) */
+/* LucidGreen — JS (sobriete numerique) */
 
 document.addEventListener('DOMContentLoaded', () => {
 
